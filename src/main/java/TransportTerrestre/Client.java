@@ -1,4 +1,7 @@
 package TransportTerrestre;
 
-public class Client {
+import java.util.ArrayList;
+
+public class Client extends Utilisateur{
+    private ArrayList<Reservation> reservations;
 }

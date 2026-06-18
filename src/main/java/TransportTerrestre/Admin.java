@@ -1,4 +1,5 @@
 package TransportTerrestre;
 
-public class Admin {
+public class Admin extends Utilisateur{
+    private Agence agence;
 }
