@@ -9,5 +9,4 @@ public class CourseTaxi extends Voyage {
     private String lieuPriseEnCharge;
     private String lieuDestination;
     private TypeCourse typeCourse;
-    private int dureeEstimee;
 }

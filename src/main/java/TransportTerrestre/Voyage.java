@@ -10,6 +10,7 @@ public abstract class Voyage {
         PLANIFIE, EN_COURS, TERMINE, ANNULE
     }
 
+
     private UUID id;
     private LocalDate date;
     private LocalTime heureDepart;

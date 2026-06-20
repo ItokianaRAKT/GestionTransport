@@ -1,5 +1,6 @@
 package TransportTerrestre;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Ticket {
@@ -13,4 +14,5 @@ public class Ticket {
     private Arret arretMontee;
     private Arret arretDescente;
     private Voyage voyage;
+    private ArrayList<Bagage> bagages;
 }
