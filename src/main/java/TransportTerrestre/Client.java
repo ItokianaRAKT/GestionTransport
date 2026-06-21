@@ -1,7 +1,11 @@
 package TransportTerrestre;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.UUID;
+
+@Data
 
 public class Client extends Utilisateur{
     private ArrayList<Reservation> reservations;

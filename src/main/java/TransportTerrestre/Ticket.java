@@ -1,7 +1,13 @@
 package TransportTerrestre;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.UUID;
+
+@Data
+@AllArgsConstructor
 
 public class Ticket {
     enum StatutTicket {
@@ -9,10 +15,9 @@ public class Ticket {
     }
 
     private UUID id;
-    private Place place;
+    private String nomPassager;
+    private Place placeConcenre;
     private StatutTicket statut;
-    private Arret arretMontee;
-    private Arret arretDescente;
-    private Voyage voyage;
+    private Transport transport;
     private ArrayList<Bagage> bagages;
 }

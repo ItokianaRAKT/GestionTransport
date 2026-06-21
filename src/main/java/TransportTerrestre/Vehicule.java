@@ -1,6 +1,12 @@
 package TransportTerrestre;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.ArrayList;
+
+@Data
+@AllArgsConstructor
 
 public class Vehicule {
     enum TypeService {
@@ -17,6 +23,6 @@ public class Vehicule {
     private boolean disponible;
     private int chargeMax;
     private boolean appartientAgence;
-
+    private ArrayList<Integer> depensesCeMois;
 
 }

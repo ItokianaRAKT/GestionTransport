@@ -1,12 +1,16 @@
 package TransportTerrestre;
 
-public class CourseTaxi extends Voyage {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+
+public class CourseTaxi extends Transport {
     enum TypeCourse {
         IMMEDIATE, PROGRAMMEE
     }
 
     private Client client;
-    private String lieuPriseEnCharge;
-    private String lieuDestination;
     private TypeCourse typeCourse;
 }

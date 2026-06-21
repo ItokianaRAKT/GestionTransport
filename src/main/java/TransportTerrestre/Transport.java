@@ -1,21 +1,26 @@
 package TransportTerrestre;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public abstract class Voyage {
+@Data
+@AllArgsConstructor
+
+public abstract class Transport {
     enum StatutVoyage {
         PLANIFIE, EN_COURS, TERMINE, ANNULE
     }
 
-
     private UUID id;
     private LocalDate date;
     private LocalTime heureDepart;
-    private StatutVoyage statut;
     private Trajet trajet;
+    private StatutVoyage statut;
     private Vehicule vehicule;
     private Chauffeur chauffeur;
     private ArrayList<Ticket> tickets;

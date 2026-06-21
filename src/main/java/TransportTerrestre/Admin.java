@@ -1,6 +1,11 @@
 package TransportTerrestre;
 
+import lombok.Data;
+
 import java.util.UUID;
+
+@Data
+
 
 public class Admin extends Utilisateur{
     private Agence agence;
