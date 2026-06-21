@@ -23,6 +23,6 @@ public class Vehicule {
     private boolean disponible;
     private int chargeMax;
     private boolean appartientAgence;
-    private ArrayList<Integer> depensesCeMois;
+    private ArrayList<Depenses> depensesCeMois;
 
 }
