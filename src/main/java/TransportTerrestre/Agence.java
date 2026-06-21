@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
 
 @Data
@@ -16,17 +17,10 @@ public class Agence {
     private String ville;
     private String adresse;
     private String telephone;
-    private ArrayList<Vehicule> vehicules;
+    private Map<Vehicule, Trajet> VehiculeAssigneTrajet;
     private ArrayList<Chauffeur> chauffeurs;
-    private ArrayList<Trajet> trajets;
     private ArrayList<Reservation> reservations;
     private ArrayList<Transport> voyagesEffectues;
-
-
-public int calculDepense(Vehicule vehicule){
-    if (!vehicule.isAppartientAgence() && vehicule.getTypeVehicule() == Vehicule.TypeVehicule.TAXI_BROUSSE ){
-        YearMonth ceMois = YearMonth.now();
-
-    }
+    private ArrayList<Trajet> trajets;
 
 }

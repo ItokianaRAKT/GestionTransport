@@ -9,4 +9,5 @@ import lombok.Data;
 public class Place {
     private int numero;
     private Vehicule vehicule;
+    private VoyageNational voyageNational;
 }
