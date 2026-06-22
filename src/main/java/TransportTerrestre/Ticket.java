@@ -20,4 +20,34 @@ public class Ticket {
     private StatutTicket statut;
     private Transport transport;
     private ArrayList<Bagage> bagages;
+    String arretDepart;
+    String arretArrivee;
+
+    public int calculerDistance() {
+        return transport.getTrajet()
+                .calculerDistance(arretDepart, arretArrivee);
+    }
+
+    public double calculerPrixUnitaire() {
+
+        double prixBase = transport.getTrajet().getPrix();
+        double coef = transport.getVehicule().getCoefficient();
+
+        int distance = transport.getTrajet()
+                .calculerDistance(arretDepart, arretArrivee);
+
+        int total = transport.getTrajet()
+                .calculerDistanceTotale();
+
+        double prix = prixBase * coef;
+
+        if (distance < total / 2) {
+            prix = prix / 2;
+        }
+
+        return Math.round(prix);
+    }
+
+
+
 }

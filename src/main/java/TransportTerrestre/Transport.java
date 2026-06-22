@@ -12,6 +12,8 @@ import java.util.UUID;
 @AllArgsConstructor
 
 public abstract class Transport {
+
+
     enum StatutVoyage {
         PLANIFIE, EN_COURS, TERMINE, ANNULE
     }
@@ -23,6 +25,10 @@ public abstract class Transport {
     private StatutVoyage statut;
     private Vehicule vehicule;
     private Chauffeur chauffeur;
-    private ArrayList<Ticket> tickets;
     private int prixTotal;
+
+    public abstract double calculerPrix();
+    public abstract int placesDisponibles();
+    public abstract boolean estComplet();
+
 }

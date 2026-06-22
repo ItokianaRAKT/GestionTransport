@@ -12,8 +12,35 @@ import java.util.UUID;
 public class Trajet {
     private UUID id;
     private String lieuPriseEnCharge;
-    private String destination;
     private int distance;
     private int prix;
-    private ArrayList<Arret> arrets;
+    private ArrayList<String> listeArrets;
+    private ArrayList<Integer> listeDistances;
+
+    public int calculerDistanceTotale(){
+        int total = 0;
+        for (int d : listeDistances){
+            total += d;
+        }
+        return total;
+    }
+
+    public int calculerDistance(String depart, String arrivee){
+        int indexDepart = listeArrets.indexOf(depart);
+        int indexArrivee = listeArrets.indexOf(arrivee);
+        int distance = 0;
+
+        if(indexDepart > indexArrivee){
+            int tmp = indexDepart;
+            indexDepart = indexArrivee;
+            indexArrivee = tmp;
+        }
+
+        for (int i = indexDepart; i < indexArrivee; i++) {
+            distance += listeDistances.get(i);
+        }
+        return distance;
+    }
+
+
 }

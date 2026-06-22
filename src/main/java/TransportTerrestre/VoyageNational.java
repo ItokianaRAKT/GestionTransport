@@ -11,15 +11,37 @@ import java.util.UUID;
 
 public class VoyageNational extends Transport {
     private String numeroLigne;
-    private int nombrePlacesDisponibles;
     private int dureeEstimee;
     private LocalTime heureArrivee;
+    private ArrayList<Ticket> tickets;
 
-    public VoyageNational(UUID id, LocalDate date, LocalTime heureDepart, Trajet trajet, StatutVoyage statut, Vehicule vehicule, Chauffeur chauffeur, ArrayList<Ticket> tickets, int prixTotal, String numeroLigne, int nombrePlacesDisponibles, int dureeEstimee, LocalTime heureArrivee) {
-        super(id, date, heureDepart, trajet, statut, vehicule, chauffeur, tickets, prixTotal);
+    public VoyageNational(UUID id, LocalDate date, LocalTime heureDepart, Trajet trajet, StatutVoyage statut, Vehicule vehicule, Chauffeur chauffeur, int prixTotal, String numeroLigne, int dureeEstimee, LocalTime heureArrivee, ArrayList<Ticket> tickets) {
+        super(id, date, heureDepart, trajet, statut, vehicule, chauffeur, prixTotal);
         this.numeroLigne = numeroLigne;
-        this.nombrePlacesDisponibles = nombrePlacesDisponibles;
         this.dureeEstimee = dureeEstimee;
         this.heureArrivee = heureArrivee;
+        this.tickets = tickets;
     }
+
+    @Override
+    public double calculerPrix() {
+        double total = 0;
+        for(Ticket t : tickets){
+            total += t.calculerPrixUnitaire();
+        }
+        return  total;
+    }
+
+    @Override
+    public int placesDisponibles() {
+        return getVehicule().getNombreDePlaces() - tickets.size();
+    }
+
+    @Override
+    public boolean estComplet() {
+        return tickets.size() >= getVehicule().getNombreDePlaces();
+    }
+
+
+
 }
