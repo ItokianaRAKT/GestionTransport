@@ -9,17 +9,15 @@ import java.util.UUID;
 
 @Data
 
-public class VoyageNational extends Transport {
-    private String numeroLigne;
+public class VoyageNational extends Deplacement {
     private int dureeEstimee;
-    private LocalTime heureArrivee;
+    private LocalTime heureArriveeApproximative;
     private ArrayList<Ticket> tickets;
 
-    public VoyageNational(UUID id, LocalDate date, LocalTime heureDepart, Trajet trajet, StatutVoyage statut, Vehicule vehicule, Chauffeur chauffeur, int prixTotal, String numeroLigne, int dureeEstimee, LocalTime heureArrivee, ArrayList<Ticket> tickets) {
+    public VoyageNational(UUID id, LocalDate date, LocalTime heureDepart, Trajet trajet, StatutTransport statut, Vehicule vehicule, ArrayList<Chauffeur> chauffeur, int prixTotal, int dureeEstimee, LocalTime heureArriveeApproximative, ArrayList<Ticket> tickets) {
         super(id, date, heureDepart, trajet, statut, vehicule, chauffeur, prixTotal);
-        this.numeroLigne = numeroLigne;
         this.dureeEstimee = dureeEstimee;
-        this.heureArrivee = heureArrivee;
+        this.heureArriveeApproximative = heureArriveeApproximative;
         this.tickets = tickets;
     }
 
@@ -33,7 +31,7 @@ public class VoyageNational extends Transport {
     }
 
     @Override
-    public int placesDisponibles() {
+    public int compterPlacesDisponiblesRestantes() {
         return getVehicule().getNombreDePlaces() - tickets.size();
     }
 
@@ -41,7 +39,5 @@ public class VoyageNational extends Transport {
     public boolean estComplet() {
         return tickets.size() >= getVehicule().getNombreDePlaces();
     }
-
-
 
 }

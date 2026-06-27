@@ -15,28 +15,27 @@ public class Ticket {
     }
 
     private UUID id;
-    private String nomPassager;
     private Place placeConcenre;
     private StatutTicket statut;
-    private Transport transport;
+    private Deplacement deplacement;
     private ArrayList<Bagage> bagages;
     String arretDepart;
     String arretArrivee;
 
     public int calculerDistance() {
-        return transport.getTrajet()
+        return deplacement.getTrajet()
                 .calculerDistance(arretDepart, arretArrivee);
     }
 
     public double calculerPrixUnitaire() {
 
-        double prixBase = transport.getTrajet().getPrix();
-        double coef = transport.getVehicule().getCoefficient();
+        double prixBase = deplacement.getTrajet().getPrix();
+        double coef = deplacement.getVehicule().getCoefficient();
 
-        int distance = transport.getTrajet()
+        int distance = deplacement.getTrajet()
                 .calculerDistance(arretDepart, arretArrivee);
 
-        int total = transport.getTrajet()
+        int total = deplacement.getTrajet()
                 .calculerDistanceTotale();
 
         double prix = prixBase * coef;

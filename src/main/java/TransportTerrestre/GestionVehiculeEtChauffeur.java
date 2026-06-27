@@ -1,7 +1,5 @@
 package TransportTerrestre;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 public class GestionVehiculeEtChauffeur {
     private Agence agence;
@@ -24,8 +22,8 @@ public class GestionVehiculeEtChauffeur {
         }
         agence.getVehiculeAssigneTrajet().remove(vehicule);
         agence.getChauffeurs().stream()
-                .filter(c -> vehicule.equals(c.getVehicule()))
-                .forEach(c -> c.setVehicule(null));
+                .filter(chauffeur -> vehicule.equals(chauffeur.getVehicule()))
+                .forEach(chauffeur -> chauffeur.setVehicule(null));
         vehicule.setDisponible(false);
     }
 

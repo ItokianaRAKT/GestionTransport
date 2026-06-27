@@ -3,7 +3,6 @@ package TransportTerrestre;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
@@ -20,7 +19,10 @@ public class Agence {
     private Map<Vehicule, Trajet> VehiculeAssigneTrajet;
     private ArrayList<Chauffeur> chauffeurs;
     private ArrayList<Reservation> reservations;
-    private ArrayList<Transport> voyagesEffectues;
+    private ArrayList<Deplacement> voyagesEffectues;
     private ArrayList<Trajet> trajets;
 
+    public void listerVoituresDisponibles(){
+        return;
+    }
 }

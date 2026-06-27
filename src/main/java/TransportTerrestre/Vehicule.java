@@ -20,9 +20,11 @@ public class Vehicule {
             return coefficient;
         }
     }
+
     enum TypeVehicule{
         MOTO, TAXI, TAXI_BROUSSE, MINI_BUS
     }
+
     private String matricule;
     private int nombreDePlaces;
     private TypeService typeService;
@@ -32,7 +34,7 @@ public class Vehicule {
     private double chargeMax;
     private boolean appartientAgence;
     private ArrayList<Depenses> listeDeDepenses;
-    private ArrayList <Transport> transportsEffectues;
+    private ArrayList <Deplacement> transportsEffectues;
 
     public double getCoefficient() {
         return typeService.getCoefficient();
@@ -68,9 +70,9 @@ public class Vehicule {
 
     public double calculRecetteMensuelle(YearMonth mois) {
         double total = 0;
-        for(Transport t : transportsEffectues){
-            if (YearMonth.from(t.getDate()).equals(mois))
-                total += t.calculerPrix();
+        for(Deplacement deplacement : transportsEffectues){
+            if (YearMonth.from(deplacement.getDate()).equals(mois))
+                total += deplacement.calculerPrix();
         }
         return total;
     }

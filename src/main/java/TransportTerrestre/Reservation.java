@@ -16,5 +16,8 @@ public class Reservation {
     private ArrayList<Ticket> tickets;
     private Paiement paiement;
     private Client client;
-    private ArrayList<Transport> voyage;
+
+    public void calculerMontant(){
+
+    }
 }

@@ -11,7 +11,6 @@ import java.util.UUID;
 public class Bagage {
     private UUID id;
     private double poids;
-
-
+    private String description;
 
 }

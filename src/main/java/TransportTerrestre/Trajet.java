@@ -11,10 +11,11 @@ import java.util.UUID;
 
 public class Trajet {
     private UUID id;
-    private String lieuPriseEnCharge;
+    private Arret depart;
+    private Arret arrivee;
     private int distance;
     private int prix;
-    private ArrayList<String> listeArrets;
+    private ArrayList<Arret> listeArrets;
     private ArrayList<Integer> listeDistances;
 
     public int calculerDistanceTotale(){
