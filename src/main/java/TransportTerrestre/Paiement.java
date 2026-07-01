@@ -13,9 +13,11 @@ public class Paiement {
     enum ModePaiement {
         CASH, MOBILE_MONEY, CARTE_BANCAIRE
     }
+
     enum EtatPaiement {
         EFFECTUE, REMBOURSE
     }
+
     private UUID id;
     private int montant;
     private LocalDate datePayement;

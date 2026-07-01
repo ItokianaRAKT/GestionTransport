@@ -17,7 +17,7 @@ public class Reservation {
     private Paiement paiement;
     private Client client;
 
-    public void calculerMontant(){
+    public void calculerMontant() {
 
     }
 }

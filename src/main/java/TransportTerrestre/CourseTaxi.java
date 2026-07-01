@@ -44,7 +44,7 @@ public class CourseTaxi extends Deplacement {
         return compterPlacesDisponiblesRestantes() == 0;
     }
 
-    public void demarerCourse(){
+    public void demarerCourse() {
 
     }
 

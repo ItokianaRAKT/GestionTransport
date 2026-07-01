@@ -22,7 +22,7 @@ public class Agence {
     private ArrayList<Deplacement> voyagesEffectues;
     private ArrayList<Trajet> trajets;
 
-    public void listerVoituresDisponibles(){
+    public void listerVoituresDisponibles() {
         return;
     }
 }

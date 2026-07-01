@@ -10,9 +10,10 @@ import java.time.LocalDate;
 
 
 public class Depenses {
-    enum TypeDepense{
+    enum TypeDepense {
         CARBURANT, REPARATION, ENTRETIENT, SALAIRE, ASSURANCE
     }
+
     private LocalDate date;
     private int montant;
     private String description;

@@ -18,20 +18,20 @@ public class Trajet {
     private ArrayList<Arret> listeArrets;
     private ArrayList<Integer> listeDistances;
 
-    public int calculerDistanceTotale(){
+    public int calculerDistanceTotale() {
         int total = 0;
-        for (int d : listeDistances){
+        for (int d : listeDistances) {
             total += d;
         }
         return total;
     }
 
-    public int calculerDistance(String depart, String arrivee){
+    public int calculerDistance(String depart, String arrivee) {
         int indexDepart = listeArrets.indexOf(depart);
         int indexArrivee = listeArrets.indexOf(arrivee);
         int distance = 0;
 
-        if(indexDepart > indexArrivee){
+        if (indexDepart > indexArrivee) {
             int tmp = indexDepart;
             indexDepart = indexArrivee;
             indexArrivee = tmp;

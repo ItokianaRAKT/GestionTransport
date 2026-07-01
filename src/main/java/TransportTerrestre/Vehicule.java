@@ -13,15 +13,17 @@ public class Vehicule {
     enum TypeService {
         ECO(1.0), VIP(1.5);
         private final double coefficient;
-        TypeService(double coefficient){
+
+        TypeService(double coefficient) {
             this.coefficient = coefficient;
         }
+
         public double getCoefficient() {
             return coefficient;
         }
     }
 
-    enum TypeVehicule{
+    enum TypeVehicule {
         MOTO, TAXI, TAXI_BROUSSE, MINI_BUS
     }
 
@@ -34,34 +36,33 @@ public class Vehicule {
     private double chargeMax;
     private boolean appartientAgence;
     private ArrayList<Depenses> listeDeDepenses;
-    private ArrayList <Deplacement> transportsEffectues;
+    private ArrayList<Deplacement> transportsEffectues;
 
     public double getCoefficient() {
         return typeService.getCoefficient();
     }
 
-    public boolean estDisponible(){
+    public boolean estDisponible() {
         return isDisponible();
     }
 
-    public void changerDisponibilité(){
-        if (isDisponible()){
+    public void changerDisponibilité() {
+        if (isDisponible()) {
             setDisponible(false);
-        }
-        else {
+        } else {
             setDisponible(true);
         }
     }
 
-    public void ajouterDepense(Depenses depenses){
+    public void ajouterDepense(Depenses depenses) {
         listeDeDepenses.add(depenses);
         System.out.println("Dépense insérée avec succès");
     }
 
-    public double calculDepensesMensuelle(YearMonth mois){
+    public double calculDepensesMensuelle(YearMonth mois) {
         double total = 0;
-        for(Depenses D : listeDeDepenses ){
-            if (YearMonth.from(D.getDate()).equals(mois)){
+        for (Depenses D : listeDeDepenses) {
+            if (YearMonth.from(D.getDate()).equals(mois)) {
                 total += D.getMontant();
             }
         }
@@ -70,14 +71,14 @@ public class Vehicule {
 
     public double calculRecetteMensuelle(YearMonth mois) {
         double total = 0;
-        for(Deplacement deplacement : transportsEffectues){
+        for (Deplacement deplacement : transportsEffectues) {
             if (YearMonth.from(deplacement.getDate()).equals(mois))
                 total += deplacement.calculerPrix();
         }
         return total;
     }
 
-    public double calculBeneficeMensuel(YearMonth mois){
+    public double calculBeneficeMensuel(YearMonth mois) {
         double total = 0;
         YearMonth moisCible = mois;
         total = calculDepensesMensuelle(moisCible) - calculRecetteMensuelle(moisCible);
