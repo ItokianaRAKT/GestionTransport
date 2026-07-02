@@ -28,7 +28,9 @@ public class Vehicule {
     enum Usage { 
         COURSE , VOYAGE 
     }
+    
     private String matricule;
+    private Agence agence ;
     private TypeService typeService;
     private List<Place> chaises;
     private TypeVehicule typeVehicule;
