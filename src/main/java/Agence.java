@@ -2,14 +2,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class Agence {
     int id ; 
     Admin chef ; 
-    List<Ticket> tickets ; 
-    List<Voiture> LeurVoiture ;
+    List<Reservation> reservations ; 
+    List<Vehicule> LeurVoiture ;
     //trajetvoyage
     List<Trajet> international ;
     List<Chauffeur> Personnel ;
+    
+    public void AssignerUneVoiture (Chauffeur service,Vehicule VOITURE){ 
+        if ((service.sonPermis == typePermis.A)&&(VOITURE.LaVoiture == typeVehicule.MOTO)){ 
+            if (VOITURE.getChauffeur()!= null){ 
+            VOITURE.setChauffeur(service) ; 
+            }
+            throw new IllegalArgumentException("il y a deja un chauffeur"); 
+        }
+        if ((service.sonPermis == typePermis.B)&&((VOITURE.LaVoiture == typeVehicule.BREAK) || (VOITURE.LaVoiture == typeVehicule.CITADINE))){ 
+            if (VOITURE.getChauffeur()!= null){ 
+            VOITURE.setChauffeur(service) ; 
+            }
+            throw new IllegalArgumentException("il y a deja un chauffeur"); 
+        }
+        if ((service.sonPermis == typePermis.D)&&(VOITURE.LaVoiture == typeVehicule.BUS)){ 
+            if (VOITURE.getChauffeur()!= null){ 
+            VOITURE.setChauffeur(service) ; 
+            }
+            throw new IllegalArgumentException("il y a deja un chauffeur"); 
+        }
+    }
 
     public void enregistrerTrajetVoyage (Trajet voyage){ 
         if (!international.contains(voyage)){ 
@@ -21,11 +43,11 @@ public class Agence {
     public void accepterUnArret (Trajet Arret,Trajet Voyage){ 
         
         for (Trajet V : international) {
-            if (V.ArretPossible.contains(Arret)){ 
+            if (V.arret.contains(Arret)){ 
                 throw new IllegalArgumentException("Cette arret est deja prit en compte"); 
             }
             if (V == Voyage){ 
-                V.ArretPossible.add(Arret);
+                V.arret.add(Arret);
             }else { 
                 throw new IllegalArgumentException("ce trajet de voyage n est pas enregistrer par l agence"); 
             }   
@@ -36,42 +58,42 @@ public class Agence {
         this.id = id;
         this.chef = chef;
         this.LeurVoiture= new ArrayList<>();
-        this.tickets= new ArrayList<>();
+        this.reservations= new ArrayList<>();
         this.international= new ArrayList<>();
     }
     public void donnerIVoyage(int matricule , Trajet Route){ 
-        for (Voiture B : this.LeurVoiture) {
+        for (Vehicule B : this.LeurVoiture) {
             if((B.Usage == enumType.voyage) &&(B.matricule ==matricule)){ 
-                B.Sontrajet = Route ;
+                B.setSonTrajet(Route) ;
             }
         }
     }
-    public void lancerUnVoyage (Voiture lancer){ 
-        for (Voiture V : LeurVoiture) {
-            if((V.matricule == lancer.matricule) &&(V.localisation == Action.Libre)){ 
-                V.localisation =Action.EnRoute ;
+    public void lancerUnVoyage (Vehicule lancer){ 
+        for (Vehicule V : LeurVoiture) {
+            if((V.matricule == lancer.matricule) &&(V.disponible== Disponible.Libre)){ 
+                V.disponible =Disponible.EnRoute ;
             }
         }
     }
-    public void NouvelleVoiture (Voiture nouvelle ){ 
+    public void NouvelleVoiture (Vehicule nouvelle ){ 
         LeurVoiture.add(nouvelle);
     }
     
     public double Voirdepense (){ 
         double totalDepense = 0.0 ; 
         List<Integer> dejaPrit = new ArrayList<>();
-        for (Ticket ticket : tickets) {
-            if(!dejaPrit.contains(ticket.Voiture.matricule)){
-                dejaPrit.add(ticket.Voiture.matricule);
-            totalDepense+=ticket.trajet.Distance*ticket.Voiture.prixconsomationParKM;}
+        for (Reservation ticket : reservations) {
+            if(!dejaPrit.contains(ticket.vehicule.matricule)){
+                dejaPrit.add(ticket.vehicule.matricule);
+            totalDepense+=ticket.trajet.Distance*ticket.vehicule.getPrixConsomationParKM();}
         }
         System.out.println("les depenses :");
         return totalDepense ; 
     }
     public double voirGain (){ 
         double totalGain = 0.0 ; 
-        List<Ticket> dejaPrit = new ArrayList<>();
-        for (Ticket ticket : tickets) {
+        List<Reservation> dejaPrit = new ArrayList<>();
+        for (Reservation ticket : reservations) {
             
                 dejaPrit.add(ticket);
                 totalGain += ticket.prix ;

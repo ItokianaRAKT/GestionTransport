@@ -6,14 +6,15 @@ public class Trajet {
     String Depart ; 
     String Destination ;
     Double Distance ;
-    List<Trajet> ArretPossible ; 
+    List<Trajet> arret ;
     
     public Trajet(int id, String depart, String destination, Double distance ) {
         this.id = id;
         this.Depart = depart;
         this.Destination = destination;
         this.Distance = distance;
-        this.ArretPossible = new ArrayList<>();
+        this.arret = new ArrayList<>(); 
+        
     } 
-      
+    
 }

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 import java.util.UUID;
 
 
@@ -10,6 +10,7 @@ public class Client extends Utilisateur {
     List<Bagages> LesBagages;
     CompteBancaire CarteBancaire ;
     Mobile Money ;
+
     
     
     public Client(UUID id, String nom, String prenom, String email, String motDePasse) {
@@ -75,17 +76,17 @@ public class Client extends Utilisateur {
         if (Connexion != true){ 
             throw new IllegalArgumentException ("T es pas encore connecter ...");  
         }
-        for ( Ticket Monticket : KOFI.tickets) {
+        for ( Reservation Monticket : KOFI.reservations) {
             if (Monticket.leClient.id == this.id){ 
                 System.out.println(Monticket);
             }
         }
     }
-    public void AnnulerTicket (Ticket refuser,Agence KOFI){ 
+    public void AnnulerTicket (Reservation refuser,Agence KOFI){ 
         if (Connexion != true){ 
             throw new IllegalArgumentException ("T es pas encore connecter ...");  
         }
-        KOFI.tickets.removeIf(p->p.id == refuser.id );
+        KOFI.reservations.removeIf(p->p.id == refuser.id );
     }
 
 }
