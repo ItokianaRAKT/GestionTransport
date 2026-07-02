@@ -16,7 +16,6 @@ public class Place {
     
     private int numero;
     private Vehicule vehicule;
-    private VoyageNational voyageNational;
     private Ranger ranger;
     private Colonne colonne;
     private boolean disponibilite;

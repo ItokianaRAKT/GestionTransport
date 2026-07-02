@@ -25,11 +25,11 @@ public class Vehicule {
     enum TypeVehicule{
         MOTO, TAXI_BREAK, TAXI_BROUSSE, MINI_BUS
     }
-
     private String matricule;
+    private int nombreDePlaces;
     private TypeService typeService;
     private ArrayList<Place> places;
-    private TypeVehicule TypeVehicule;
+    private TypeVehicule typeVehicule;
     private boolean disponible;
     private double chargeMax;
     private boolean appartientAgence;
@@ -83,12 +83,12 @@ public class Vehicule {
         total = calculDepensesMensuelle(moisCible) - calculRecetteMensuelle(moisCible);
         return total;
     }
-     public void ajoutPlaces (TypeVehicule genre){  
+    public void ajoutPlaces (TypeVehicule genre){  
         if (genre == TypeVehicule.MOTO){ 
             Place chaise = new Place(1); 
             places.add(chaise);
         }
-        if (genre == TypeVehicule.TAXI_BROUSSE || genre == TypeVehicule.){ 
+        if (genre == TypeVehicule.TAXI_BROUSSE || genre == TypeVehicule.TAXI_BREAK){ 
             Place chaise = new Place(1, Place.Ranger.devant, Place.Colonne.fenetreD);
             Place chaise1 = new Place(2,Place.Ranger.deuxieme,Place.Colonne.fenetreG);
             Place chaise2 =new Place (3,Place.Ranger.deuxieme,Place.Colonne.milieu);
@@ -106,11 +106,12 @@ public class Vehicule {
             for (compte = 0; compte<4; compte++){  
                 places.add(new Place( (ajout*compte)+3,Place.Ranger.deuxieme,Place.Colonne.fenetreG));
                 places.add(new Place( (ajout*compte)+5,Place.Ranger.deuxieme,Place.Colonne.CouloirG));
-                places.add(new Place( (ajout*compte)+6,Place.Ranger.deuxieme,Place.Colonne.Strapotin));
+                places.add(new Place( (ajout*compte)+6,Place.Ranger.deuxieme,Place.Colonne.milieu));
                 places.add(new Place( (ajout*compte)+7,Place.Ranger.deuxieme,Place.Colonne.CouloirD));
                 places.add(new Place( (ajout*compte)+8,Place.Ranger.deuxieme,Place.Colonne.fenetreD));
                 
             }
         }
     }
+    
 }
