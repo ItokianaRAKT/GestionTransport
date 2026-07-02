@@ -7,22 +7,22 @@ import lombok.Data;
 
 
 public class Place {
-    enum Ranger { 
-        devant, first, deuxieme, troisieme, quatre 
+    enum Rangee { 
+        devant, premier, deuxieme, troisieme, quatre 
     }
     enum Colonne { 
         fenetreG, fenetreD, CouloirG, CouloirD, milieu
     }
     
     private int numero;
-    private Vehicule vehicule;
-    private Ranger ranger;
+    
+    private Rangee rangee;
     private Colonne colonne;
     private boolean disponibilite;
 
-    public Place(int numero, Ranger ranger, Colonne colonne) {
+    public Place(int numero, Rangee rangee, Colonne colonne) {
         this.numero = numero;
-        this.ranger = ranger;
+        this.rangee = rangee;
         this.colonne = colonne;
         this.disponibilite = true;
     }

@@ -1,6 +1,6 @@
 package TransportTerrestre;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 
 import java.time.YearMonth;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
+
 
 public class Vehicule {
     enum TypeService {
@@ -23,34 +23,54 @@ public class Vehicule {
     }
 
     enum TypeVehicule{
-        MOTO, TAXI_BREAK, TAXI_BROUSSE, MINI_BUS
+        MOTO, BREAK, CITADINE, BUS, MINI_BUS
+    }
+    enum Usage { 
+        COURSE , VOYAGE 
     }
     private String matricule;
-    private int nombreDePlaces;
     private TypeService typeService;
-    private ArrayList<Place> places;
+    private List<Place> chaises;
     private TypeVehicule typeVehicule;
+    private Usage usage ;
+    private Trajet trajet ; 
+    private Double consommationParKM ;
     private boolean disponible;
     private double chargeMax;
-    private boolean appartientAgence;
-    private ArrayList<Depenses> listeDeDepenses;
-    private ArrayList <Deplacement> transportsEffectues;
+    private List<Depenses> listeDeDepenses;
+    private List <Deplacement> transportsEffectues;
 
+
+
+    public Vehicule(String matricule, Double consommationParKM  ,TypeService typeService, TypeVehicule typeVehicule, Usage usage) {
+        this.matricule = matricule;
+        this.consommationParKM = consommationParKM ;
+        this.typeService = typeService;
+        this.typeVehicule = typeVehicule;
+        this.usage = usage;
+        this.disponible = true ;
+        this.chargeMax = ConditionCharge() ;
+        this.chaises =  new ArrayList<>(); 
+        this.listeDeDepenses =  new ArrayList<>(); 
+        this.transportsEffectues =  new ArrayList<>(); 
+    }
+    public double ConditionCharge(){ 
+        if (this.typeVehicule == typeVehicule.MOTO){ 
+            return 0.00;
+        }
+         if (this.typeVehicule  == typeVehicule.BREAK){ 
+            return 350.00 ;
+        }
+        if (this.typeVehicule  == typeVehicule.CITADINE) { 
+                return 500.00;
+            }
+        if (this.typeVehicule ==typeVehicule.MINI_BUS){ 
+            return 1500.00 ; 
+        } 
+        return 0.00;
+    }
     public double getCoefficient() {
         return typeService.getCoefficient();
-    }
-
-    public boolean estDisponible(){
-        return isDisponible();
-    }
-
-    public void changerDisponibilité(){
-        if (isDisponible()){
-            setDisponible(false);
-        }
-        else {
-            setDisponible(true);
-        }
     }
 
     public void ajouterDepense(Depenses depenses){
@@ -86,32 +106,46 @@ public class Vehicule {
     public void ajoutPlaces (TypeVehicule genre){  
         if (genre == TypeVehicule.MOTO){ 
             Place chaise = new Place(1); 
-            places.add(chaise);
+            chaises.add(chaise);
         }
-        if (genre == TypeVehicule.TAXI_BROUSSE || genre == TypeVehicule.TAXI_BREAK){ 
-            Place chaise = new Place(1, Place.Ranger.devant, Place.Colonne.fenetreD);
-            Place chaise1 = new Place(2,Place.Ranger.deuxieme,Place.Colonne.fenetreG);
-            Place chaise2 =new Place (3,Place.Ranger.deuxieme,Place.Colonne.milieu);
-            Place chaise3  =new Place (4,Place.Ranger.deuxieme,Place.Colonne.fenetreD);
+        if (genre == TypeVehicule.BREAK || genre == TypeVehicule.CITADINE){ 
+            Place chaise = new Place(1, Place.Rangee.devant, Place.Colonne.fenetreD);
+            Place chaise1 = new Place(2,Place.Rangee.deuxieme,Place.Colonne.fenetreG);
+            Place chaise2 =new Place (3,Place.Rangee.deuxieme,Place.Colonne.milieu);
+            Place chaise3  =new Place (4,Place.Rangee.deuxieme,Place.Colonne.fenetreD);
             
-            this.places = new ArrayList<>(List.of(chaise,chaise1,chaise2,chaise3));
+            this.chaises = new ArrayList<>(List.of(chaise,chaise1,chaise2,chaise3));
         }
         if (genre== TypeVehicule.MINI_BUS){ 
-            Place chaise = new Place(1, Place.Ranger.devant, Place.Colonne.milieu);
-            Place chaise1 = new Place(2, Place.Ranger.devant, Place.Colonne.fenetreD);
-            places.add(chaise);
-            places.add(chaise1);
-            int compte ;
-            int ajout = 5 ; 
-            for (compte = 0; compte<4; compte++){  
-                places.add(new Place( (ajout*compte)+3,Place.Ranger.deuxieme,Place.Colonne.fenetreG));
-                places.add(new Place( (ajout*compte)+5,Place.Ranger.deuxieme,Place.Colonne.CouloirG));
-                places.add(new Place( (ajout*compte)+6,Place.Ranger.deuxieme,Place.Colonne.milieu));
-                places.add(new Place( (ajout*compte)+7,Place.Ranger.deuxieme,Place.Colonne.CouloirD));
-                places.add(new Place( (ajout*compte)+8,Place.Ranger.deuxieme,Place.Colonne.fenetreD));
+            Place chaise = new Place(1, Place.Rangee.devant, Place.Colonne.milieu);
+            Place chaise1 = new Place(2, Place.Rangee.devant, Place.Colonne.fenetreD);
+            chaises.add(chaise);
+            chaises.add(chaise1);
+            Place.Rangee variation = Place.Rangee.premier;  // valeur par défaut obligatoire
+            int ajout = 5;
+            for (int compte = 0; compte < 4; compte++) {
+                if (compte == 0) variation = Place.Rangee.premier;
+                else if (compte == 1) variation = Place.Rangee.deuxieme;
+                else if (compte == 2) variation = Place.Rangee.troisieme;
+                else if (compte == 3) variation = Place.Rangee.quatre;
+
+                chaises.add(new Place((ajout*compte) + 3, variation, Place.Colonne.fenetreG));
+                chaises.add(new Place((ajout*compte) + 4, variation, Place.Colonne.CouloirG));
+                chaises.add(new Place((ajout*compte) + 5, variation, Place.Colonne.milieu));
+                chaises.add(new Place((ajout*compte) + 6, variation, Place.Colonne.CouloirD));
+                chaises.add(new Place((ajout*compte) + 7, variation, Place.Colonne.fenetreD));
+            }
                 
             }
-        }
+            }
+    public boolean getDispo (){ 
+        return disponible ;
     }
+    public boolean setDispo (){ 
+    if (disponible == false){ 
+        return disponible = true ;
+    }
+    return disponible = false ; 
+}
     
 }
