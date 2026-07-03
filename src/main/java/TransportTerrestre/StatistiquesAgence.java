@@ -3,6 +3,7 @@ package TransportTerrestre;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class StatistiquesAgence {
@@ -53,8 +54,14 @@ public class StatistiquesAgence {
         return total;
     }
 
-    public int calculerBeneficeTotaleMensuelle() {
-        return 0;
+    public int calculerBeneficeTotaleMensuelle(Agence agence, YearMonth mois) {
+        double totalRecette = 0;
+        double totalDepense = 0;
+        for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
+            totalRecette += calculerRecetteTotaleMensuelle(v, mois);
+            totalDepense += calculerDepenseMensuelleVehicule(v, mois);
+        }
+        return (int)(totalRecette - totalDepense);
     }
 
     public double calculerDepenseMensuelleVehicule(Vehicule v, YearMonth mois) {
@@ -63,23 +70,134 @@ public class StatistiquesAgence {
     }
 
     public int calculerDepenseTotaleVehicule(Vehicule v) {
-        return 0;
+        double total = 0;
+        for (Depenses d : v.getListeDeDepenses()) {
+            total += d.getMontant();
+        }
+        return (int)total;
     }
 
-    public void estPlusRentable(Trajet t) {
-        //vehicule
-
+    public Vehicule estPlusRentable(Agence agence, Trajet t) {
+        Vehicule meilleur = null;
+        double maxBenefice = Double.NEGATIVE_INFINITY;
+        for (Map.Entry<Vehicule, Trajet> entry : agence.getVehiculeAssigneTrajet().entrySet()) {
+            if (!entry.getValue().getId().equals(t.getId())) continue;
+            Vehicule v = entry.getKey();
+            double recette = 0;
+            for (Deplacement d : v.getTransportsEffectues()) {
+                if (d.getTrajet().getId().equals(t.getId())) {
+                    recette += d.calculerPrix();
+                }
+            }
+            double benefice = recette - calculerDepenseTotaleVehicule(v);
+            if (benefice > maxBenefice) {
+                maxBenefice = benefice;
+                meilleur = v;
+            }
+        }
+        return meilleur;
     }
 
-    public void chauffeurTaxiEstPlusActif() {
-
+    public Trajet estPlusRentable(Agence agence, YearMonth mois) {
+        Trajet meilleur = null;
+        double maxRecette = 0;
+        for (Trajet t : agence.getTrajets()) {
+            double recette = 0;
+            for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
+                if (!agence.getVehiculeAssigneTrajet().get(v).getId().equals(t.getId())) continue;
+                for (Deplacement d : v.getTransportsEffectues()) {
+                    if (d.getTrajet().getId().equals(t.getId()) && YearMonth.from(d.getDate()).equals(mois)) {
+                        recette += d.calculerPrix();
+                    }
+                }
+            }
+            if (recette > maxRecette) {
+                maxRecette = recette;
+                meilleur = t;
+            }
+        }
+        return meilleur;
     }
 
-    public void chauffeurNationalPlusActif(Trajet t) {
-        // plus de km
+    public Trajet estPlusRentable(Agence agence) {
+        Trajet meilleur = null;
+        double maxRecette = 0;
+        for (Trajet t : agence.getTrajets()) {
+            double recette = 0;
+            for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
+                if (!agence.getVehiculeAssigneTrajet().get(v).getId().equals(t.getId())) continue;
+                for (Deplacement d : v.getTransportsEffectues()) {
+                    if (d.getTrajet().getId().equals(t.getId())) {
+                        recette += d.calculerPrix();
+                    }
+                }
+            }
+            if (recette > maxRecette) {
+                maxRecette = recette;
+                meilleur = t;
+            }
+        }
+        return meilleur;
     }
 
-    public void chauffeurNationalPlusActif() {
-        // plus de km}
+    public Chauffeur chauffeurTaxiPlusActif(Agence agence) {
+        Chauffeur plusActif = null;
+        double maxKm = 0;
+        for (Chauffeur c : agence.getChauffeurs()) {
+            double km = 0;
+            for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
+                for (Deplacement d : v.getTransportsEffectues()) {
+                    if (d instanceof CourseTaxi && d.getChauffeur().contains(c)) {
+                        km += d.getTrajet().getDistance();
+                    }
+                }
+            }
+            if (km > maxKm) {
+                maxKm = km;
+                plusActif = c;
+            }
+        }
+        return plusActif;
+    }
+
+    public Chauffeur chauffeurNationalPlusActifSurUnTrajet(Agence agence, Trajet t) {
+        Chauffeur plusActif = null;
+        int maxTrajets = 0;
+        for (Chauffeur c : agence.getChauffeurs()) {
+            int count = 0;
+            for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
+                for (Deplacement d : v.getTransportsEffectues()) {
+                    if (d instanceof VoyageNational && d.getChauffeur().contains(c)
+                            && d.getTrajet().getId().equals(t.getId())) {
+                        count++;
+                    }
+                }
+            }
+            if (count > maxTrajets) {
+                maxTrajets = count;
+                plusActif = c;
+            }
+        }
+        return plusActif;
+    }
+
+    public Chauffeur chauffeurNationalPlusActif(Agence agence) {
+        Chauffeur plusActif = null;
+        double maxKm = 0;
+        for (Chauffeur c : agence.getChauffeurs()) {
+            double km = 0;
+            for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
+                for (Deplacement d : v.getTransportsEffectues()) {
+                    if (d instanceof VoyageNational && d.getChauffeur().contains(c)) {
+                        km += d.getTrajet().getDistance();
+                    }
+                }
+            }
+            if (km > maxKm) {
+                maxKm = km;
+                plusActif = c;
+            }
+        }
+        return plusActif;
     }
 }
