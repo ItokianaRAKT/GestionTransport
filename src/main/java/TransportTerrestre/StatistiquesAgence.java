@@ -45,16 +45,21 @@ public class StatistiquesAgence {
         return recette;
     }
 
-    public int calculerDepenseTotaleMensuelle() {
-        return 0;
+    public double calculerDepenseTotaleMensuelle(Agence agence, YearMonth mois) {
+        double total = 0;
+        for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
+            total += calculerDepenseMensuelleVehicule(v, mois);
+        }
+        return total;
     }
 
     public int calculerBeneficeTotaleMensuelle() {
         return 0;
     }
 
-    public int calculerDepenseMensuelleVehicule(Vehicule v) {
-        return 0;
+    public double calculerDepenseMensuelleVehicule(Vehicule v, YearMonth mois) {
+        if (!v.isAppartientAgence()) return 0;
+        return v.calculDepensesMensuelle(mois);
     }
 
     public int calculerDepenseTotaleVehicule(Vehicule v) {
