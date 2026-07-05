@@ -38,7 +38,7 @@ public class Chauffeur extends Utilisateur {
             disponible= false ; 
         }else disponible = true ; 
      }
-     public void changerDisponibilitéVehicule (boolean choix){    
+     public void changerDisponibiliteVehicule (boolean choix){    
         if(this.vehicule.getDispo() == choix) { 
             System.out.println("rien ne changes");
         }else 

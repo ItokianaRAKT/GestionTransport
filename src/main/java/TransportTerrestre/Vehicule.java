@@ -23,7 +23,7 @@ public class Vehicule {
     }
 
     enum TypeVehicule{
-        MOTO, BREAK, CITADINE, BUS, MINI_BUS
+        MOTO, BREAK, CITADINE, MINI_BUS
     }
     enum Usage { 
         COURSE , VOYAGE 
@@ -61,10 +61,10 @@ public class Vehicule {
         if (this.typeVehicule == typeVehicule.MOTO){ 
             return 0.00;
         }
-         if (this.typeVehicule  == typeVehicule.BREAK){ 
+         if (this.typeVehicule  == typeVehicule.CITADINE){ 
             return 350.00 ;
         }
-        if (this.typeVehicule  == typeVehicule.CITADINE) { 
+        if (this.typeVehicule  == typeVehicule.BREAK) { 
                 return 500.00;
             }
         if (this.typeVehicule ==typeVehicule.MINI_BUS){ 
@@ -133,7 +133,7 @@ public class Vehicule {
                 generationPlaces.add(new Place((ajout*compte) + 5, variation, Place.Colonne.milieu));
                 generationPlaces.add(new Place((ajout*compte) + 6, variation, Place.Colonne.CouloirD));
                 generationPlaces.add(new Place((ajout*compte) + 7, variation, Place.Colonne.fenetreD));
-                nombreDePlace = sieges.size();
+                nombreDePlace = generationPlaces.size();
             }
                 
             }
