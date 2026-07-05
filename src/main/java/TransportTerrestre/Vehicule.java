@@ -39,7 +39,7 @@ public class Vehicule {
     @ToString.Exclude @EqualsAndHashCode.Exclude
     private Agence agence ;
     private TypeService typeService;
-    private int nombreDePlace ;
+    private int nombreDePlaces ;
     private List<Place> sieges;
     private TypeVehicule typeVehicule;
     private Usage usage ;
@@ -131,11 +131,11 @@ public class Vehicule {
     public List<Place> ajoutPlaces (TypeVehicule genre){  
         List<Place> generationPlaces = new ArrayList<>() ; 
         if (genre == TypeVehicule.MOTO){ 
-            nombreDePlace = 1 ; 
+            nombreDePlaces = 1 ;
             
         }
         if (genre == TypeVehicule.BREAK || genre == TypeVehicule.CITADINE){ 
-            nombreDePlace = 4 ;
+            nombreDePlaces = 4 ;
         }
         if (genre== TypeVehicule.BUS){
             Place siege1 = new Place(1, Place.Rangee.devant, Place.Colonne.milieu);
@@ -155,17 +155,10 @@ public class Vehicule {
                 generationPlaces.add(new Place((ajout*compte) + 5, variation, Place.Colonne.milieu));
                 generationPlaces.add(new Place((ajout*compte) + 6, variation, Place.Colonne.CouloirD));
                 generationPlaces.add(new Place((ajout*compte) + 7, variation, Place.Colonne.fenetreD));
-                nombreDePlace = generationPlaces.size();
+                nombreDePlaces = generationPlaces.size();
             }
                 
             }
             return generationPlaces ;
             }
-    public boolean getDispo (){ 
-        return disponible ;
-    }
-    public boolean setDispo (boolean choix){ 
-      return choix ;
-    }
-    
 }

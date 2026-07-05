@@ -37,28 +37,15 @@ public class Chauffeur extends Utilisateur {
         this.disponible = true;     
     }
      
-     public void changerDisponibilité (){ 
-        if (this.disponible== true){ 
-            disponible= false ; 
-        }else disponible = true ; 
+     public void changerDisponibilité() {
+        this.disponible = !this.disponible;
      }
-     public void changerDisponibiliteVehicule (boolean choix){    
-        if(this.vehicule.getDispo() == choix) { 
-            System.out.println("rien ne changes");
-        }else 
-                this.vehicule.setDispo(choix);
 
+     public void terminerCourse(CourseTaxi course) {
+        course.terminer();
+        setDisponible(true);
+        if (getVehicule() != null) {
+            getVehicule().setDisponible(true);
+        }
      }
-     public void terminerTransport (){ 
-        
-     }
-     public void Negociation (Reservation reservationClient,double prixChauffeur){
-        if ((this.vehicule.getUsage()== Usage.COURSE) &&(reservationClient.getPaiement() == null)){ 
-            reservationClient.setPrix(prixChauffeur); 
-            System.out.println("negociation avec succes");
-        }else throw new IllegalArgumentException
-        ("cela n est pas possible soit le payment est deja realiser soit c est voyage prix  defini!!!"); 
-
-    }
-
 }
