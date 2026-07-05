@@ -17,4 +17,7 @@ public class Depenses {
     private int montant;
     private String description;
     private Vehicule vehicule;
+    
+    
+
 }

@@ -32,7 +32,8 @@ public class Vehicule {
     private String matricule;
     private Agence agence ;
     private TypeService typeService;
-    private List<Place> chaises;
+    private int nombreDePlace ;
+    private List<Place> sieges;
     private TypeVehicule typeVehicule;
     private Usage usage ;
     private Trajet trajet ; 
@@ -52,7 +53,7 @@ public class Vehicule {
         this.usage = usage;
         this.disponible = true ;
         this.chargeMax = ConditionCharge() ;
-        this.chaises =  new ArrayList<>(); 
+        this.sieges = ajoutPlaces(typeVehicule); 
         this.listeDeDepenses =  new ArrayList<>(); 
         this.transportsEffectues =  new ArrayList<>(); 
     }
@@ -105,24 +106,20 @@ public class Vehicule {
         total = calculDepensesMensuelle(moisCible) - calculRecetteMensuelle(moisCible);
         return total;
     }
-    public void ajoutPlaces (TypeVehicule genre){  
+    public List<Place> ajoutPlaces (TypeVehicule genre){  
+        List<Place> generationPlaces = new ArrayList<>() ; 
         if (genre == TypeVehicule.MOTO){ 
-            Place chaise = new Place(1); 
-            chaises.add(chaise);
+            nombreDePlace = 1 ; 
+            
         }
         if (genre == TypeVehicule.BREAK || genre == TypeVehicule.CITADINE){ 
-            Place chaise = new Place(1, Place.Rangee.devant, Place.Colonne.fenetreD);
-            Place chaise1 = new Place(2,Place.Rangee.deuxieme,Place.Colonne.fenetreG);
-            Place chaise2 =new Place (3,Place.Rangee.deuxieme,Place.Colonne.milieu);
-            Place chaise3  =new Place (4,Place.Rangee.deuxieme,Place.Colonne.fenetreD);
-            
-            this.chaises = new ArrayList<>(List.of(chaise,chaise1,chaise2,chaise3));
+            nombreDePlace = 4 ;
         }
         if (genre== TypeVehicule.MINI_BUS){ 
-            Place chaise = new Place(1, Place.Rangee.devant, Place.Colonne.milieu);
-            Place chaise1 = new Place(2, Place.Rangee.devant, Place.Colonne.fenetreD);
-            chaises.add(chaise);
-            chaises.add(chaise1);
+            Place siege1 = new Place(1, Place.Rangee.devant, Place.Colonne.milieu);
+            Place siege2 = new Place(2, Place.Rangee.devant, Place.Colonne.fenetreD);
+            generationPlaces.add(siege1);
+            generationPlaces.add(siege2);
             Place.Rangee variation = Place.Rangee.premier;  // valeur par défaut obligatoire
             int ajout = 5;
             for (int compte = 0; compte < 4; compte++) {
@@ -131,23 +128,22 @@ public class Vehicule {
                 else if (compte == 2) variation = Place.Rangee.troisieme;
                 else if (compte == 3) variation = Place.Rangee.quatre;
 
-                chaises.add(new Place((ajout*compte) + 3, variation, Place.Colonne.fenetreG));
-                chaises.add(new Place((ajout*compte) + 4, variation, Place.Colonne.CouloirG));
-                chaises.add(new Place((ajout*compte) + 5, variation, Place.Colonne.milieu));
-                chaises.add(new Place((ajout*compte) + 6, variation, Place.Colonne.CouloirD));
-                chaises.add(new Place((ajout*compte) + 7, variation, Place.Colonne.fenetreD));
+                generationPlaces.add(new Place((ajout*compte) + 3, variation, Place.Colonne.fenetreG));
+                generationPlaces.add(new Place((ajout*compte) + 4, variation, Place.Colonne.CouloirG));
+                generationPlaces.add(new Place((ajout*compte) + 5, variation, Place.Colonne.milieu));
+                generationPlaces.add(new Place((ajout*compte) + 6, variation, Place.Colonne.CouloirD));
+                generationPlaces.add(new Place((ajout*compte) + 7, variation, Place.Colonne.fenetreD));
+                nombreDePlace = sieges.size();
             }
                 
             }
+            return generationPlaces ;
             }
     public boolean getDispo (){ 
         return disponible ;
     }
-    public boolean setDispo (){ 
-    if (disponible == false){ 
-        return disponible = true ;
+    public boolean setDispo (boolean choix){ 
+      return choix ;
     }
-    return disponible = false ; 
-}
     
 }

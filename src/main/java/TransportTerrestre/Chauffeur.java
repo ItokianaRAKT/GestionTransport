@@ -33,13 +33,20 @@ public class Chauffeur extends Utilisateur {
         this.disponible = true;     
     }
      
-     public void changerSadisponibilité (){ 
+     public void changerDisponibilité (){ 
         if (this.disponible== true){ 
             disponible= false ; 
         }else disponible = true ; 
      }
-     public void changerDisponibilitéVehicule (){     
-        this.vehicule.setDispo();
+     public void changerDisponibilitéVehicule (boolean choix){    
+        if(this.vehicule.getDispo() == choix) { 
+            System.out.println("rien ne changes");
+        }else 
+                this.vehicule.setDispo(choix);
+
+     }
+     public void terminerTransport (){ 
+        
      }
      public void Negociation (Reservation reservationClient,double prixChauffeur){
         if ((this.vehicule.getUsage()== Usage.COURSE) &&(reservationClient.getPaiement() == null)){ 
