@@ -16,6 +16,7 @@ public class Reservation {
     private ArrayList<Ticket> tickets;
     private Paiement paiement;
     private Client client;
+    private double prix;
 
     public void calculerMontant() {
 

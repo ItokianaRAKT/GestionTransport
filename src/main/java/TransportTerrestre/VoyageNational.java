@@ -32,12 +32,12 @@ public class VoyageNational extends Deplacement {
 
     @Override
     public int compterPlacesDisponiblesRestantes() {
-        return getVehicule().getNombreDePlaces() - tickets.size();
+        return getVehicule().getNombreDePlace() - tickets.size();
     }
 
     @Override
     public boolean estComplet() {
-        return tickets.size() >= getVehicule().getNombreDePlaces();
+        return tickets.size() >= getVehicule().getNombreDePlace();
     }
 
 }

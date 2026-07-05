@@ -22,7 +22,7 @@ public class StatistiquesAgence {
             }
         }
 
-        if (!vehicule.isAppartientAgence()) {
+        if (vehicule.getAgence() == null) {
             if (!joursService.isEmpty()) {
                 int nbJours = joursService.size();
                 if (vehicule.getTypeVehicule() == Vehicule.TypeVehicule.MOTO) {
@@ -65,13 +65,13 @@ public class StatistiquesAgence {
     }
 
     public double calculerDepenseMensuelleVehicule(Vehicule v, YearMonth mois) {
-        if (!v.isAppartientAgence()) return 0;
+        if (v.getAgence() == null) return 0;
         return v.calculDepensesMensuelle(mois);
     }
 
     public int calculerDepenseTotaleVehicule(Vehicule v) {
         double total = 0;
-        for (Depenses d : v.getListeDeDepenses()) {
+        for (Depenses d : v.getListeDepenses()) {
             total += d.getMontant();
         }
         return (int)total;
