@@ -79,7 +79,7 @@ public class StatistiquesAgence {
 
     public Vehicule estPlusRentable(Agence agence, Trajet t) {
         Vehicule meilleur = null;
-        double maxBenefice = Double.NEGATIVE_INFINITY;
+        double maxRecette = 0;
         for (Map.Entry<Vehicule, Trajet> entry : agence.getVehiculeAssigneTrajet().entrySet()) {
             if (!entry.getValue().getId().equals(t.getId())) continue;
             Vehicule v = entry.getKey();
@@ -89,9 +89,8 @@ public class StatistiquesAgence {
                     recette += d.calculerPrix();
                 }
             }
-            double benefice = recette - calculerDepenseTotaleVehicule(v);
-            if (benefice > maxBenefice) {
-                maxBenefice = benefice;
+            if (recette > maxRecette) {
+                maxRecette = recette;
                 meilleur = v;
             }
         }
@@ -100,9 +99,10 @@ public class StatistiquesAgence {
 
     public Trajet estPlusRentable(Agence agence, YearMonth mois) {
         Trajet meilleur = null;
-        double maxRecette = 0;
+        double maxBenefice = Double.NEGATIVE_INFINITY;
         for (Trajet t : agence.getTrajets()) {
             double recette = 0;
+            double depense = 0;
             for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
                 if (!agence.getVehiculeAssigneTrajet().get(v).getId().equals(t.getId())) continue;
                 for (Deplacement d : v.getTransportsEffectues()) {
@@ -110,9 +110,11 @@ public class StatistiquesAgence {
                         recette += d.calculerPrix();
                     }
                 }
+                depense += calculerDepenseMensuelleVehicule(v, mois);
             }
-            if (recette > maxRecette) {
-                maxRecette = recette;
+            double benefice = recette - depense;
+            if (benefice > maxBenefice) {
+                maxBenefice = benefice;
                 meilleur = t;
             }
         }
@@ -121,9 +123,10 @@ public class StatistiquesAgence {
 
     public Trajet estPlusRentable(Agence agence) {
         Trajet meilleur = null;
-        double maxRecette = 0;
+        double maxBenefice = Double.NEGATIVE_INFINITY;
         for (Trajet t : agence.getTrajets()) {
             double recette = 0;
+            double depense = 0;
             for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
                 if (!agence.getVehiculeAssigneTrajet().get(v).getId().equals(t.getId())) continue;
                 for (Deplacement d : v.getTransportsEffectues()) {
@@ -131,9 +134,11 @@ public class StatistiquesAgence {
                         recette += d.calculerPrix();
                     }
                 }
+                depense += calculerDepenseTotaleVehicule(v);
             }
-            if (recette > maxRecette) {
-                maxRecette = recette;
+            double benefice = recette - depense;
+            if (benefice > maxBenefice) {
+                maxBenefice = benefice;
                 meilleur = t;
             }
         }
@@ -144,12 +149,11 @@ public class StatistiquesAgence {
         Chauffeur plusActif = null;
         double maxKm = 0;
         for (Chauffeur c : agence.getChauffeurs()) {
+            if (c.getVehicule() == null) continue;
             double km = 0;
-            for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
-                for (Deplacement d : v.getTransportsEffectues()) {
-                    if (d instanceof CourseTaxi && d.getChauffeur().contains(c)) {
-                        km += d.getTrajet().getDistance();
-                    }
+            for (Deplacement d : c.getVehicule().getTransportsEffectues()) {
+                if (d instanceof CourseTaxi && d.getChauffeur().contains(c)) {
+                    km += d.getTrajet().getDistance();
                 }
             }
             if (km > maxKm) {
@@ -164,13 +168,12 @@ public class StatistiquesAgence {
         Chauffeur plusActif = null;
         int maxTrajets = 0;
         for (Chauffeur c : agence.getChauffeurs()) {
+            if (c.getVehicule() == null) continue;
             int count = 0;
-            for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
-                for (Deplacement d : v.getTransportsEffectues()) {
-                    if (d instanceof VoyageNational && d.getChauffeur().contains(c)
-                            && d.getTrajet().getId().equals(t.getId())) {
-                        count++;
-                    }
+            for (Deplacement d : c.getVehicule().getTransportsEffectues()) {
+                if (d instanceof VoyageNational && d.getChauffeur().contains(c)
+                        && d.getTrajet().getId().equals(t.getId())) {
+                    count++;
                 }
             }
             if (count > maxTrajets) {
@@ -185,12 +188,11 @@ public class StatistiquesAgence {
         Chauffeur plusActif = null;
         double maxKm = 0;
         for (Chauffeur c : agence.getChauffeurs()) {
+            if (c.getVehicule() == null) continue;
             double km = 0;
-            for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
-                for (Deplacement d : v.getTransportsEffectues()) {
-                    if (d instanceof VoyageNational && d.getChauffeur().contains(c)) {
-                        km += d.getTrajet().getDistance();
-                    }
+            for (Deplacement d : c.getVehicule().getTransportsEffectues()) {
+                if (d instanceof VoyageNational && d.getChauffeur().contains(c)) {
+                    km += d.getTrajet().getDistance();
                 }
             }
             if (km > maxKm) {

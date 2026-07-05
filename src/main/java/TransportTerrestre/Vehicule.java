@@ -79,9 +79,6 @@ public class Vehicule {
     }
 
     public double calculBeneficeMensuel(YearMonth mois) {
-        double total = 0;
-        YearMonth moisCible = mois;
-        total = calculDepensesMensuelle(moisCible) - calculRecetteMensuelle(moisCible);
-        return total;
+        return calculRecetteMensuelle(mois) - calculDepensesMensuelle(mois);
     }
 }
