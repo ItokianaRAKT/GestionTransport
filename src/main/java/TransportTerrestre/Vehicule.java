@@ -2,6 +2,8 @@ package TransportTerrestre;
 
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class Vehicule {
     }
     
     private String matricule;
+    @ToString.Exclude @EqualsAndHashCode.Exclude
     private Agence agence ;
     private TypeService typeService;
     private int nombreDePlace ;
@@ -45,7 +48,9 @@ public class Vehicule {
     private boolean disponible;
     private double chargeMax;
 
+    @ToString.Exclude @EqualsAndHashCode.Exclude
     private List<Depenses> listeDepenses;
+    @ToString.Exclude @EqualsAndHashCode.Exclude
     private List <Deplacement> transportsEffectues;
 
 

@@ -2,6 +2,8 @@ package TransportTerrestre;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class Reservation {
     private LocalDate dateReservation;
     private ArrayList<Ticket> tickets;
     private Paiement paiement;
+    @ToString.Exclude @EqualsAndHashCode.Exclude
     private Client client;
     private double prix;
 

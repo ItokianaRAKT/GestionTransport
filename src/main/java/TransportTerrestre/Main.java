@@ -22,8 +22,8 @@ public class Main {
             System.out.print("Votre choix : ");
             String choix = scanner.nextLine();
             switch (choix) {
-                case "1" -> connecter(scanner);
-                case "2" -> creerCompte(scanner);
+                case "1" -> System.out.println("Connexion - non implémenté");
+                case "2" -> System.out.println("Création de compte - non implémenté");
                 case "3" -> {
                     System.out.println("Au revoir !");
                     return;

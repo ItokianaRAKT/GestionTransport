@@ -2,6 +2,8 @@ package TransportTerrestre;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -17,6 +19,7 @@ public class Ticket {
     private UUID id;
     private Place placeConcenre;
     private StatutTicket statut;
+    @ToString.Exclude @EqualsAndHashCode.Exclude
     private Deplacement deplacement;
     private ArrayList<Bagage> bagages;
     String arretDepart;

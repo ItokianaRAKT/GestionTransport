@@ -2,6 +2,8 @@ package TransportTerrestre;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
@@ -17,6 +19,7 @@ public class Depenses {
     private LocalDate date;
     private int montant;
     private String description;
+    @ToString.Exclude @EqualsAndHashCode.Exclude
     private Vehicule vehicule;
     
     
