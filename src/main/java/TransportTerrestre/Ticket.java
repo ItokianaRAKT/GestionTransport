@@ -1,16 +1,29 @@
 package TransportTerrestre;
 
-import java.util.UUID;
-
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 public class Ticket {
     enum StatutTicket {
         RESERVE, VALIDE, ANNULE, REMBOURSE
     }
 
-    private UUID id;
-    private Place place;
-    private StatutTicket statut;
-    private Arret arretMontee;
-    private Arret arretDescente;
-    private Voyage voyage;
+    private String id;
+    private Arret arretDepart;
+    private Arret arretArrivee;
+    private List<Bagage> bagages;
+    private Place placeConcernée;
+    private LocalDate jourDepart;
+    private LocalTime heureDepart;
+    private boolean actif;
+    public Ticket(String id, Arret depart, Arret arrivee, Place place) {
+        this.id = id;
+        this.arretDepart = depart;
+        this.arretArrivee = arrivee;
+        this.placeConcernée = place;
+        this.bagages = new ArrayList<>();
+        this.actif = true;
+    }
+    public void annuler() { this.actif = false; }
 }
