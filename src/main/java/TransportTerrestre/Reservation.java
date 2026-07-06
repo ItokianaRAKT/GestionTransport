@@ -1,8 +1,14 @@
 package TransportTerrestre;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
+
+@Data
+@AllArgsConstructor
 
 public class Reservation {
     private UUID id;
@@ -10,6 +16,7 @@ public class Reservation {
     private ArrayList<Ticket> tickets;
     private Paiement paiement;
     private Client client;
+
 
     public Reservation(UUID id, Client client, Paiement paiement) {
         this.id = id;
@@ -58,5 +65,6 @@ public class Reservation {
     }
     public ArrayList<Bagage> retirerBagages(Bagage bag){
         return this.tickets.remove(bag);
+
     }
 }

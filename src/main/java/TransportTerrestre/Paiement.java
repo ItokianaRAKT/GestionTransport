@@ -1,14 +1,24 @@
 package TransportTerrestre;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.util.UUID;
+
+@Data
+@AllArgsConstructor
 
 public class Paiement {
     enum ModePaiement {
         CASH, MOBILE_MONEY, CARTE_BANCAIRE
     }
+      enum EtatPaiement {
+        EFFECTUE, REMBOURSE
+    }
+
     private String id;
-    private double montant;
+    private int montant;
     private String nomTitulaire;
     private int numeroCompte;
     private String referenceTransaction;
