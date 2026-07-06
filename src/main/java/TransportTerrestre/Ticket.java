@@ -13,7 +13,7 @@ public class Ticket {
     private Arret arretDepart;
     private Arret arretArrivee;
     private List<Bagage> bagages;
-    private Place placeConcernée;
+    private Place placeConcernee;
     private LocalDate jourDepart;
     private LocalTime heureDepart;
     private boolean actif;
