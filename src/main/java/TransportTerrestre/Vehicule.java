@@ -2,6 +2,8 @@ package TransportTerrestre;
 
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -14,25 +16,30 @@ public class Vehicule {
     enum TypeService {
         ECO(1.0), VIP(1.5);
         private final double coefficient;
-        TypeService(double coefficient){
+
+        TypeService(double coefficient) {
             this.coefficient = coefficient;
         }
+
         public double getCoefficient() {
             return coefficient;
         }
     }
 
+
     enum TypeVehicule{
-        MOTO, BREAK, CITADINE, MINI_BUS
+        MOTO, BREAK, CITADINE, BUS
+
     }
     enum Usage { 
         COURSE , VOYAGE 
     }
     
     private String matricule;
+    @ToString.Exclude @EqualsAndHashCode.Exclude
     private Agence agence ;
     private TypeService typeService;
-    private int nombreDePlace ;
+    private int nombreDePlaces ;
     private List<Place> sieges;
     private TypeVehicule typeVehicule;
     private Usage usage ;
@@ -40,8 +47,12 @@ public class Vehicule {
     private Double consommationParKM ;
     private boolean disponible;
     private double chargeMax;
-    private List<Depenses> listeDeDepenses;
+
+    @ToString.Exclude @EqualsAndHashCode.Exclude
+    private List<Depenses> listeDepenses;
+    @ToString.Exclude @EqualsAndHashCode.Exclude
     private List <Deplacement> transportsEffectues;
+
 
 
 
@@ -54,7 +65,7 @@ public class Vehicule {
         this.disponible = true ;
         this.chargeMax = ConditionCharge() ;
         this.sieges = ajoutPlaces(typeVehicule); 
-        this.listeDeDepenses =  new ArrayList<>(); 
+        this.listeDepenses =  new ArrayList<>();
         this.transportsEffectues =  new ArrayList<>(); 
     }
     public double ConditionCharge(){ 
@@ -67,7 +78,7 @@ public class Vehicule {
         if (this.typeVehicule  == typeVehicule.BREAK) { 
                 return 500.00;
             }
-        if (this.typeVehicule ==typeVehicule.MINI_BUS){ 
+        if (this.typeVehicule ==typeVehicule.BUS){
             return 1500.00 ; 
         } 
         return 0.00;
@@ -76,15 +87,29 @@ public class Vehicule {
         return typeService.getCoefficient();
     }
 
-    public void ajouterDepense(Depenses depenses){
-        listeDeDepenses.add(depenses);
+
+    public boolean estDisponible() {
+        return isDisponible();
+    }
+
+    public void changerDisponibilité() {
+        if (isDisponible()) {
+            setDisponible(false);
+        } else {
+            setDisponible(true);
+        }
+    }
+
+    public void ajouterDepense(Depenses depenses) {
+
+        listeDepenses.add(depenses);
         System.out.println("Dépense insérée avec succès");
     }
 
-    public double calculDepensesMensuelle(YearMonth mois){
+    public double calculDepensesMensuelle(YearMonth mois) {
         double total = 0;
-        for(Depenses D : listeDeDepenses ){
-            if (YearMonth.from(D.getDate()).equals(mois)){
+        for (Depenses D : listeDepenses) {
+            if (YearMonth.from(D.getDate()).equals(mois)) {
                 total += D.getMontant();
             }
         }
@@ -93,29 +118,26 @@ public class Vehicule {
 
     public double calculRecetteMensuelle(YearMonth mois) {
         double total = 0;
-        for(Deplacement deplacement : transportsEffectues){
+        for (Deplacement deplacement : transportsEffectues) {
             if (YearMonth.from(deplacement.getDate()).equals(mois))
                 total += deplacement.calculerPrix();
         }
         return total;
     }
 
-    public double calculBeneficeMensuel(YearMonth mois){
-        double total = 0;
-        YearMonth moisCible = mois;
-        total = calculDepensesMensuelle(moisCible) - calculRecetteMensuelle(moisCible);
-        return total;
+    public double calculBeneficeMensuel(YearMonth mois) {
+        return calculRecetteMensuelle(mois) - calculDepensesMensuelle(mois);
     }
     public List<Place> ajoutPlaces (TypeVehicule genre){  
         List<Place> generationPlaces = new ArrayList<>() ; 
         if (genre == TypeVehicule.MOTO){ 
-            nombreDePlace = 1 ; 
+            nombreDePlaces = 1 ;
             
         }
         if (genre == TypeVehicule.BREAK || genre == TypeVehicule.CITADINE){ 
-            nombreDePlace = 4 ;
+            nombreDePlaces = 4 ;
         }
-        if (genre== TypeVehicule.MINI_BUS){ 
+        if (genre== TypeVehicule.BUS){
             Place siege1 = new Place(1, Place.Rangee.devant, Place.Colonne.milieu);
             Place siege2 = new Place(2, Place.Rangee.devant, Place.Colonne.fenetreD);
             generationPlaces.add(siege1);
@@ -133,17 +155,10 @@ public class Vehicule {
                 generationPlaces.add(new Place((ajout*compte) + 5, variation, Place.Colonne.milieu));
                 generationPlaces.add(new Place((ajout*compte) + 6, variation, Place.Colonne.CouloirD));
                 generationPlaces.add(new Place((ajout*compte) + 7, variation, Place.Colonne.fenetreD));
-                nombreDePlace = generationPlaces.size();
+                nombreDePlaces = generationPlaces.size();
             }
                 
             }
             return generationPlaces ;
             }
-    public boolean getDispo (){ 
-        return disponible ;
-    }
-    public boolean setDispo (boolean choix){ 
-      return choix ;
-    }
-    
 }

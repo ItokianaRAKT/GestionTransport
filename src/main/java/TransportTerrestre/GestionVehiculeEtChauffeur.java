@@ -8,7 +8,7 @@ public class GestionVehiculeEtChauffeur {
         this.agence = agence;
     }
 
-    public void ajouterVehicule(Vehicule vehicule, Trajet trajet){
+    public void ajouterVehicule(Vehicule vehicule, Trajet trajet) {
         if (agence.getVehiculeAssigneTrajet().containsKey(vehicule)) {
             throw new IllegalArgumentException("Ce vehicule est déjà enregistré");
         }
@@ -16,7 +16,7 @@ public class GestionVehiculeEtChauffeur {
         vehicule.setDisponible(true);
     }
 
-    public void supprimerVehicule(Vehicule vehicule){
+    public void supprimerVehicule(Vehicule vehicule) {
         if (!agence.getVehiculeAssigneTrajet().containsKey(vehicule)) {
             throw new IllegalArgumentException("Ce vehicule n'est pas enregistré");
         }
@@ -27,18 +27,21 @@ public class GestionVehiculeEtChauffeur {
         vehicule.setDisponible(false);
     }
 
-    public void ajouterChauffeur(Chauffeur chauffeur){
+    public void ajouterChauffeur(Chauffeur chauffeur) {
+        if (agence.getChauffeurs().contains(chauffeur)) {
+            throw new IllegalArgumentException("Ce chauffeur est déjà enregistré.");
+        }
         agence.getChauffeurs().add(chauffeur);
     }
 
-    public void supprimerChauffeur(Chauffeur chauffeur){
-        if (agence.getChauffeurs().contains(chauffeur)) {
+    public void supprimerChauffeur(Chauffeur chauffeur) {
+        if (!agence.getChauffeurs().contains(chauffeur)) {
             throw new IllegalArgumentException("Ce chauffeur n'est pas enregistré");
         }
         agence.getChauffeurs().remove(chauffeur);
     }
 
-    public void affecterVehicule(Vehicule vehicule, Trajet trajet){
+    public void affecterVehicule(Vehicule vehicule, Trajet trajet) {
         if (!agence.getVehiculeAssigneTrajet().containsKey(vehicule)) {
             throw new IllegalArgumentException("Ce vehicule n'est pas enregistré");
         }
@@ -48,13 +51,16 @@ public class GestionVehiculeEtChauffeur {
         agence.getVehiculeAssigneTrajet().put(vehicule, trajet);
     }
 
-    public void affecterChauffeur(Chauffeur chauffeur, Vehicule vehicule){
-        if (agence.getChauffeurs().contains(chauffeur)) {
+    public void affecterChauffeur(Chauffeur chauffeur, Vehicule vehicule) {
+        if (!agence.getChauffeurs().contains(chauffeur)) {
             throw new IllegalArgumentException("Ce chauffeur n'est pas enregistré");
         }
         if (!agence.getVehiculeAssigneTrajet().containsKey(vehicule)) {
             throw new IllegalArgumentException("Ce vehicule n'est pas enregistré");
         }
+        agence.getChauffeurs().stream()
+                .filter(c -> vehicule.equals(c.getVehicule()))
+                .forEach(c -> c.setVehicule(null));
         chauffeur.setVehicule(vehicule);
     }
 }

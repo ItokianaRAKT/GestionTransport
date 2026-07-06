@@ -35,21 +35,18 @@ public class CourseTaxi extends Deplacement {
     }
 
     @Override
-    public int compterPlacesDisponiblesRestantes() {
-        return estComplet() ? 0 : 1;
-    }
-
-    @Override
     public boolean estComplet() {
-        return compterPlacesDisponiblesRestantes() == 0;
+        return true;
     }
 
-    public void demarerCourse(){
-
+    public void demarrer() {
+        setStatut(StatutTransport.EN_COURS);
     }
 
-    public void terminerCourse() {
-
+    public void terminer() {
+        setStatut(StatutTransport.TERMINE);
+        setPrixTotal((int) calculerPrix());
+        getVehicule().getTransportsEffectues().add(this);
     }
 
 }

@@ -24,10 +24,10 @@ public class VoyageNational extends Deplacement {
     @Override
     public double calculerPrix() {
         double total = 0;
-        for(Ticket t : tickets){
+        for (Ticket t : tickets) {
             total += t.calculerPrixUnitaire();
         }
-        return  total;
+        return total;
     }
 
     @Override

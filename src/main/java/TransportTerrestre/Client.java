@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 
-public class Client extends Utilisateur{
+public class Client extends Utilisateur {
     private ArrayList<Reservation> reservations;
 
     public Client(UUID id, String nom, String prenom, String email, String telephone, String motDePasse, ArrayList<Reservation> reservations) {
