@@ -85,14 +85,17 @@ public class Reservation {
         double montantRembourse = montantTicket * pourcentage / 100.0;
         if (montantRembourse > 0) {
             ticket.setStatut(Ticket.StatutTicket.REMBOURSE);
-            paiement.setRembourse(true);
-            paiement.setMontantRembourse(paiement.getMontantRembourse() + montantRembourse);
+            if (paiement != null) {
+                paiement.setRembourse(true);
+                paiement.setMontantRembourse(paiement.getMontantRembourse() + montantRembourse);
+            }
         } else {
             ticket.setStatut(Ticket.StatutTicket.ANNULE);
         }
         ticket.setActif(false);
         if (ticket.getVoyage() != null) {
             ticket.getVoyage().getTickets().remove(ticket);
+            ticket.setVoyage(null);
         }
         if (ticket.getPlaceConcernee() != null) {
             ticket.getPlaceConcernee().setDisponibilite(true);
@@ -107,6 +110,7 @@ public class Reservation {
             total += annulerTicket(t);
         }
         if (agence != null) agence.getReservations().remove(this);
+        if (client != null) client.getReservations().remove(this);
         return total;
     }
 

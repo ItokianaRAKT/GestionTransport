@@ -1,14 +1,16 @@
 package TransportTerrestre;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
-@Data
-
+@Getter @Setter @ToString @EqualsAndHashCode(callSuper = true)
 
 public class CourseTaxi extends Deplacement {
 
@@ -30,6 +32,9 @@ public class CourseTaxi extends Deplacement {
 
     @Override
     public double calculerPrix() {
+        if (getTrajet() == null || getVehicule() == null) {
+            throw new IllegalStateException("Impossible de calculer le prix sans trajet ni vehicule");
+        }
         double prixBase = getTrajet().getDistance() * getTarifParKm();
         return (prixBase * getVehicule().getCoefficient());
     }
@@ -37,6 +42,11 @@ public class CourseTaxi extends Deplacement {
     @Override
     public boolean estComplet() {
         return client != null;
+    }
+
+    @Override
+    public int compterPlacesDisponiblesRestantes() {
+        return client == null ? 1 : 0;
     }
 
     public void demarrer() {

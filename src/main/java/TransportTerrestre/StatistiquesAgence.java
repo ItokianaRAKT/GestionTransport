@@ -85,7 +85,7 @@ public class StatistiquesAgence {
             Vehicule v = entry.getKey();
             double recette = 0;
             for (Deplacement d : v.getTransportsEffectues()) {
-                if (d.getTrajet().getId().equals(t.getId())) {
+                if (d.getTrajet() != null && d.getTrajet().getId().equals(t.getId())) {
                     recette += d.calculerPrix();
                 }
             }
@@ -104,7 +104,7 @@ public class StatistiquesAgence {
             if (c.getVehicule() == null) continue;
             double km = 0;
             for (Deplacement d : c.getVehicule().getTransportsEffectues()) {
-                if (d instanceof CourseTaxi && d.getChauffeur().contains(c)) {
+                if (d instanceof CourseTaxi && d.getChauffeur().contains(c) && d.getTrajet() != null) {
                     km += d.getTrajet().getDistance();
                 }
             }
@@ -124,7 +124,7 @@ public class StatistiquesAgence {
             int count = 0;
             for (Deplacement d : c.getVehicule().getTransportsEffectues()) {
                 if (d instanceof VoyageNational && d.getChauffeur().contains(c)
-                        && d.getTrajet().getId().equals(t.getId())) {
+                        && d.getTrajet() != null && d.getTrajet().getId().equals(t.getId())) {
                     count++;
                 }
             }
@@ -143,7 +143,7 @@ public class StatistiquesAgence {
             if (c.getVehicule() == null) continue;
             double km = 0;
             for (Deplacement d : c.getVehicule().getTransportsEffectues()) {
-                if (d instanceof VoyageNational && d.getChauffeur().contains(c)) {
+                if (d instanceof VoyageNational && d.getChauffeur().contains(c) && d.getTrajet() != null) {
                     km += d.getTrajet().getDistance();
                 }
             }

@@ -29,9 +29,7 @@ public abstract class Deplacement {
 
     public abstract double calculerPrix();
 
-    public int compterPlacesDisponiblesRestantes() {
-        return 0;
-    }
+    public abstract int compterPlacesDisponiblesRestantes();
 
     public abstract boolean estComplet();
 

@@ -1,6 +1,9 @@
 package TransportTerrestre;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -8,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Data
+@Getter @Setter @ToString @EqualsAndHashCode(callSuper = true)
 
 public class VoyageNational extends Deplacement {
     private int dureeEstimee;
@@ -23,6 +26,9 @@ public class VoyageNational extends Deplacement {
     }
 
     public double calculerPrixTicket(Arret depart, Arret arrivee) {
+        if (getTrajet() == null || getVehicule() == null) {
+            throw new IllegalStateException("Impossible de calculer le prix du ticket sans trajet ni vehicule");
+        }
         double prixBase = getTrajet().getPrix() * getVehicule().getCoefficient();
         int distance = getTrajet().calculerDistance(depart.getVille(), arrivee.getVille());
         int totalDistance = getTrajet().calculerDistanceTotale();
@@ -49,7 +55,7 @@ public class VoyageNational extends Deplacement {
     public double calculerPrix() {
         double total = 0;
         for (Ticket t : tickets) {
-            double prix = calculerPrixTicket(t.getArretDepart(), t.getArretArrivee());
+            double prix = t.getPrix();
             double fraisBagages = 0;
             for (Bagage b : t.getBagages()) {
                 fraisBagages += b.calculerFrais();

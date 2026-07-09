@@ -1,11 +1,14 @@
 package TransportTerrestre;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-@Data
+@Getter @Setter @ToString @EqualsAndHashCode(callSuper = true)
 
 public class Client extends Utilisateur {
     private ArrayList<Reservation> reservations;

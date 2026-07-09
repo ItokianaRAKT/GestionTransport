@@ -58,4 +58,16 @@ public class Ticket {
     public VoyageNational getVoyage() { return voyage; }
     public void setVoyage(VoyageNational voyage) { this.voyage = voyage; }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ticket)) return false;
+        Ticket ticket = (Ticket) o;
+        return id != null && id.equals(ticket.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

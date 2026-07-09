@@ -142,6 +142,10 @@ public class Vehicule {
                 generationPlaces.add(new Place(base + 4, rangee, Place.Colonne.fenetreD));
             }
             nombreDePlaces = generationPlaces.size();
+        } else {
+            if (genre == TypeVehicule.MOTO) nombreDePlaces = 1;
+            else if (genre == TypeVehicule.CITADINE) nombreDePlaces = 4;
+            else if (genre == TypeVehicule.BREAK) nombreDePlaces = 4;
         }
         return generationPlaces;
     }
