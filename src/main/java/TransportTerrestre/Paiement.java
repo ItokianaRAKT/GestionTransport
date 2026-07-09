@@ -31,8 +31,4 @@ public class Paiement {
         return rembourse;
     }
 
-    public void rembourser() {
-        this.rembourse = true;
-    }
-
 }

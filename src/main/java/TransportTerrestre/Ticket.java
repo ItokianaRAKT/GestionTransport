@@ -34,10 +34,9 @@ public class Ticket {
         this.placeConcernee = place;
         this.bagages = new ArrayList<>();
         this.actif = true;
+        this.statut = StatutTicket.RESERVE;
         this.prix = prix;
     }
-
-    public void annuler() { this.actif = false; }
 
     public UUID getId() { return id; }
     public Place getPlaceConcernee() { return placeConcernee; }

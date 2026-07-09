@@ -15,7 +15,7 @@ public class VoyageNational extends Deplacement {
     private LocalTime heureArriveeApproximative;
     private ArrayList<Ticket> tickets;
 
-    public VoyageNational(UUID id, LocalDate date, LocalTime heureDepart, Trajet trajet, StatutTransport statut, Vehicule vehicule, ArrayList<Chauffeur> chauffeur, int prixTotal, int dureeEstimee, LocalTime heureArriveeApproximative, ArrayList<Ticket> tickets) {
+    public VoyageNational(UUID id, LocalDate date, LocalTime heureDepart, Trajet trajet, StatutTransport statut, Vehicule vehicule, ArrayList<Chauffeur> chauffeur, double prixTotal, int dureeEstimee, LocalTime heureArriveeApproximative, ArrayList<Ticket> tickets) {
         super(id, date, heureDepart, trajet, statut, vehicule, chauffeur, prixTotal);
         this.dureeEstimee = dureeEstimee;
         this.heureArriveeApproximative = heureArriveeApproximative;
@@ -26,6 +26,9 @@ public class VoyageNational extends Deplacement {
         double prixBase = getTrajet().getPrix() * getVehicule().getCoefficient();
         int distance = getTrajet().calculerDistance(depart.getVille(), arrivee.getVille());
         int totalDistance = getTrajet().calculerDistanceTotale();
+        if (distance == 0) {
+            throw new IllegalArgumentException("Le départ et l'arrivée sont identiques");
+        }
         double prix = prixBase;
         if (distance < totalDistance / 2.0) {
             prix = prix / 2;
@@ -63,6 +66,18 @@ public class VoyageNational extends Deplacement {
     @Override
     public boolean estComplet() {
         return tickets.size() >= getVehicule().getNombreDePlaces();
+    }
+
+    public void terminer() {
+        if (getVehicule() == null || getTrajet() == null) {
+            throw new IllegalStateException("Impossible de terminer un voyage sans vehicule ni trajet");
+        }
+        setStatut(StatutTransport.TERMINE);
+        setPrixTotal(calculerPrix());
+        getVehicule().getTransportsEffectues().add(this);
+        if (getVehicule().getAgence() != null) {
+            getVehicule().getAgence().getVoyagesEffectues().add(this);
+        }
     }
 
 }

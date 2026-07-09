@@ -2,14 +2,12 @@ package TransportTerrestre;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.ToString;
 import java.util.UUID;
 
 import TransportTerrestre.Vehicule.Usage;
 
 @Data
-@Getter
 
 public class Chauffeur extends Utilisateur {
     enum Permis { 

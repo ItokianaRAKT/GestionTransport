@@ -58,6 +58,9 @@ public class GestionVehiculeEtChauffeur {
         if (!agence.getVehiculeAssigneTrajet().containsKey(vehicule)) {
             throw new IllegalArgumentException("Ce vehicule n'est pas enregistré");
         }
+        if (!vehicule.estDisponible()) {
+            throw new IllegalStateException("Ce vehicule n'est pas disponible");
+        }
         agence.getChauffeurs().stream()
                 .filter(c -> vehicule.equals(c.getVehicule()))
                 .forEach(c -> c.setVehicule(null));

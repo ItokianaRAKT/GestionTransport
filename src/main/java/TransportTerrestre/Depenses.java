@@ -17,7 +17,7 @@ public class Depenses {
     }
 
     private LocalDate date;
-    private int montant;
+    private double montant;
     private String description;
     @ToString.Exclude @EqualsAndHashCode.Exclude
     private Vehicule vehicule;

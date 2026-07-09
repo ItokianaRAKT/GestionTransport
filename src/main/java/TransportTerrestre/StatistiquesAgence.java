@@ -54,14 +54,14 @@ public class StatistiquesAgence {
         return total;
     }
 
-    public int calculerBeneficeTotaleMensuelle(Agence agence, YearMonth mois) {
+    public double calculerBeneficeTotaleMensuelle(Agence agence, YearMonth mois) {
         double totalRecette = 0;
         double totalDepense = 0;
         for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
             totalRecette += calculerRecetteTotaleMensuelle(v, mois);
             totalDepense += calculerDepenseMensuelleVehicule(v, mois);
         }
-        return (int)(totalRecette - totalDepense);
+        return totalRecette - totalDepense;
     }
 
     public double calculerDepenseMensuelleVehicule(Vehicule v, YearMonth mois) {
@@ -69,12 +69,12 @@ public class StatistiquesAgence {
         return v.calculDepensesMensuelle(mois);
     }
 
-    public int calculerDepenseTotaleVehicule(Vehicule v) {
+    public double calculerDepenseTotaleVehicule(Vehicule v) {
         double total = 0;
         for (Depenses d : v.getListeDepenses()) {
             total += d.getMontant();
         }
-        return (int)total;
+        return total;
     }
 
     public Vehicule estPlusRentable(Agence agence, Trajet t) {

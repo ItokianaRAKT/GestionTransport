@@ -96,7 +96,7 @@ public class StatistiquesAgenceTest {
                 new ArrayList<>(List.of(c)), 0, client,
                 CourseTaxi.TypeCourse.IMMEDIATE, tarif
         );
-        course.setPrixTotal((int) course.calculerPrix());
+        course.setPrixTotal(course.calculerPrix());
         return course;
     }
 
@@ -301,17 +301,17 @@ public class StatistiquesAgenceTest {
         vAgencyCitadine.getTransportsEffectues().add(course);
         vAgencyCitadine.getListeDepenses().add(new Depenses(dateDansMois, 2000, "", vAgencyCitadine));
 
-        int benefice = stats.calculerBeneficeTotaleMensuelle(agence, mois);
+        double benefice = stats.calculerBeneficeTotaleMensuelle(agence, mois);
 
-        int recette = (int) (5 * 1000 * 1.0);
-        assertEquals(recette - 2000, benefice);
+        double recette = 5 * 1000 * 1.0;
+        assertEquals(recette - 2000, benefice, 0.001);
     }
 
     @Test
     void beneficeTotalMensuel_negatif() {
         vAgencyCitadine.getListeDepenses().add(new Depenses(dateDansMois, 50000, "", vAgencyCitadine));
 
-        int benefice = stats.calculerBeneficeTotaleMensuelle(agence, mois);
+        double benefice = stats.calculerBeneficeTotaleMensuelle(agence, mois);
 
         assertTrue(benefice < 0);
     }
@@ -323,16 +323,16 @@ public class StatistiquesAgenceTest {
         vAgencyCitadine.getListeDepenses().add(new Depenses(dateDansMois, 10000, "", vAgencyCitadine));
         vAgencyCitadine.getListeDepenses().add(new Depenses(dateAutreMois, 5000, "", vAgencyCitadine));
 
-        int total = stats.calculerDepenseTotaleVehicule(vAgencyCitadine);
+        double total = stats.calculerDepenseTotaleVehicule(vAgencyCitadine);
 
-        assertEquals(15000, total);
+        assertEquals(15000, total, 0.001);
     }
 
     @Test
     void depenseTotaleVehicule_sansDepense() {
-        int total = stats.calculerDepenseTotaleVehicule(vAgencyCitadine);
+        double total = stats.calculerDepenseTotaleVehicule(vAgencyCitadine);
 
-        assertEquals(0, total);
+        assertEquals(0, total, 0.001);
     }
 
     // ─── estPlusRentable(Agence, Trajet) ─────────────

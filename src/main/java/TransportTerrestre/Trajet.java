@@ -14,7 +14,7 @@ public class Trajet {
     private Arret depart;
     private Arret arrivee;
     private int distance;
-    private int prix;
+    private double prix;
     private ArrayList<Arret> listeArrets;
     private ArrayList<Integer> listeDistances;
 

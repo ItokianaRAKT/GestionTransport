@@ -1,6 +1,5 @@
 package TransportTerrestre;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
 
 public class Reservation {
     private UUID id;
@@ -23,23 +21,31 @@ public class Reservation {
     @ToString.Exclude @EqualsAndHashCode.Exclude
     private Client client;
     private double prix;
+    @ToString.Exclude @EqualsAndHashCode.Exclude
+    private Agence agence;
 
 
 
-    public Reservation(UUID id, Client client, Paiement paiement) {
+    public Reservation(UUID id, Client client, Paiement paiement, Agence agence) {
         this.id = id;
         this.client = client;
         this.paiement = paiement;
+        this.agence = agence;
         this.dateReservation = LocalDate.now();
         this.tickets = new ArrayList<>();
+        client.getReservations().add(this);
+        if (agence != null) agence.getReservations().add(this);
     }
 
-    public Reservation(UUID id, Client client, Paiement paiement, ArrayList<Ticket> tickets, LocalDate dateReservation) {
+    public Reservation(UUID id, Client client, Paiement paiement, ArrayList<Ticket> tickets, LocalDate dateReservation, Agence agence) {
         this.id = id;
         this.client = client;
         this.paiement = paiement;
         this.tickets = tickets;
         this.dateReservation = dateReservation;
+        this.agence = agence;
+        client.getReservations().add(this);
+        if (agence != null) agence.getReservations().add(this);
     }
 
     public void ajouterTicket(Ticket ticket){
@@ -50,32 +56,13 @@ public class Reservation {
     public double calculerMontant(){
         double montant = 0;
         for(Ticket ticket : tickets){
+            if (!ticket.isActif()) continue;
             montant += ticket.getPrix();
             for(Bagage bag : ticket.getBagages()){
                 montant += bag.calculerFrais();
             }
         }
         return montant;
-    }
-
-    public double calculerFraisBagages(){
-        double total = 0;
-        for(Ticket ticket : tickets){
-            for(Bagage bag : ticket.getBagages()){
-                total += bag.calculerFrais();
-            }
-        }
-        return total;
-    }
-
-    public double calculerPoidsBagages(){
-        double total = 0;
-        for(Ticket ticket : tickets){
-            for(Bagage bag : ticket.getBagages()){
-                total += bag.getPoids();
-            }
-        }
-        return total;
     }
 
     public double annulerTicket(Ticket ticket) {
@@ -116,6 +103,7 @@ public class Reservation {
         for (Ticket t : new ArrayList<>(tickets)) {
             total += annulerTicket(t);
         }
+        if (agence != null) agence.getReservations().remove(this);
         return total;
     }
 

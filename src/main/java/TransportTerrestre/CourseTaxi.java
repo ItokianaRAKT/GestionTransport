@@ -13,7 +13,7 @@ import java.util.UUID;
 public class CourseTaxi extends Deplacement {
 
 
-    public CourseTaxi(UUID id, LocalDate date, LocalTime heureDepart, Trajet trajet, StatutTransport statut, Vehicule vehicule, ArrayList<Chauffeur> chauffeur, int prixTotal, Client client, TypeCourse typeCourse, double tarifParKm) {
+    public CourseTaxi(UUID id, LocalDate date, LocalTime heureDepart, Trajet trajet, StatutTransport statut, Vehicule vehicule, ArrayList<Chauffeur> chauffeur, double prixTotal, Client client, TypeCourse typeCourse, double tarifParKm) {
         super(id, date, heureDepart, trajet, statut, vehicule, chauffeur, prixTotal);
         this.client = client;
         this.typeCourse = typeCourse;
@@ -48,8 +48,11 @@ public class CourseTaxi extends Deplacement {
             throw new IllegalStateException("Impossible de terminer une course sans vehicule ni trajet");
         }
         setStatut(StatutTransport.TERMINE);
-        setPrixTotal((int) calculerPrix());
+        setPrixTotal(calculerPrix());
         getVehicule().getTransportsEffectues().add(this);
+        if (getVehicule().getAgence() != null) {
+            getVehicule().getAgence().getVoyagesEffectues().add(this);
+        }
     }
 
 }

@@ -25,7 +25,7 @@ public abstract class Deplacement {
     private StatutTransport statut;
     private Vehicule vehicule;
     private ArrayList<Chauffeur> chauffeur;
-    private int prixTotal;
+    private double prixTotal;
 
     public abstract double calculerPrix();
 
