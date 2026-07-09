@@ -55,11 +55,12 @@ public class Trajet {
         }
         return distance;
     }
-    public void AjoutArret (Arret arret ){ 
+    public void ajouterArret(Arret arret, int distance) {
         this.listeArrets.add(arret);
+        this.listeDistances.add(distance);
     }
-    public void EnleverArret (Arret cible){ 
-        this.listeArrets.removeIf(p-> p.equals(cible));
+    public void supprimerArret(Arret cible) {
+        this.listeArrets.removeIf(p -> p.getVille().equals(cible.getVille()));
     }
 
 }

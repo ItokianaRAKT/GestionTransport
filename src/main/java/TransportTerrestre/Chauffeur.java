@@ -37,7 +37,7 @@ public class Chauffeur extends Utilisateur {
         this.disponible = true;     
     }
      
-     public void changerDisponibilité() {
+     public void changerDisponibilite() {
         this.disponible = !this.disponible;
      }
 

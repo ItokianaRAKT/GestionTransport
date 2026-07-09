@@ -63,24 +63,16 @@ public class Vehicule {
         this.typeVehicule = typeVehicule;
         this.usage = usage;
         this.disponible = true ;
-        this.chargeMax = ConditionCharge() ;
-        this.sieges = ajoutPlaces(typeVehicule); 
+        this.chargeMax = conditionCharge();
+        this.sieges = ajouterPlaces(typeVehicule);
         this.listeDepenses =  new ArrayList<>();
         this.transportsEffectues =  new ArrayList<>(); 
     }
-    public double ConditionCharge(){ 
-        if (this.typeVehicule == typeVehicule.MOTO){ 
-            return 0.00;
-        }
-         if (this.typeVehicule  == typeVehicule.CITADINE){ 
-            return 350.00 ;
-        }
-        if (this.typeVehicule  == typeVehicule.BREAK) { 
-                return 500.00;
-            }
-        if (this.typeVehicule ==typeVehicule.BUS){
-            return 1500.00 ; 
-        } 
+    public double conditionCharge() {
+        if (typeVehicule == TypeVehicule.MOTO) return 0.00;
+        if (typeVehicule == TypeVehicule.CITADINE) return 350.00;
+        if (typeVehicule == TypeVehicule.BREAK) return 500.00;
+        if (typeVehicule == TypeVehicule.BUS) return 1500.00;
         return 0.00;
     }
     public double getCoefficient() {
@@ -92,12 +84,8 @@ public class Vehicule {
         return isDisponible();
     }
 
-    public void changerDisponibilité() {
-        if (isDisponible()) {
-            setDisponible(false);
-        } else {
-            setDisponible(true);
-        }
+    public void changerDisponibilite() {
+        setDisponible(!isDisponible());
     }
 
     public void ajouterDepense(Depenses depenses) {
@@ -128,37 +116,42 @@ public class Vehicule {
     public double calculBeneficeMensuel(YearMonth mois) {
         return calculRecetteMensuelle(mois) - calculDepensesMensuelle(mois);
     }
-    public List<Place> ajoutPlaces (TypeVehicule genre){  
-        List<Place> generationPlaces = new ArrayList<>() ; 
-        if (genre == TypeVehicule.MOTO){ 
-            nombreDePlaces = 1 ;
-            
-        }
-        if (genre == TypeVehicule.BREAK || genre == TypeVehicule.CITADINE){ 
-            nombreDePlaces = 4 ;
-        }
-        if (genre== TypeVehicule.BUS){
-            Place siege1 = new Place(1, Place.Rangee.devant, Place.Colonne.milieu);
-            Place siege2 = new Place(2, Place.Rangee.devant, Place.Colonne.fenetreD);
-            generationPlaces.add(siege1);
-            generationPlaces.add(siege2);
-            Place.Rangee variation = Place.Rangee.premier;  // valeur par défaut obligatoire
-            int ajout = 5;
+    public List<Place> ajouterPlaces(TypeVehicule genre) {
+        List<Place> generationPlaces = new ArrayList<>();
+        if (genre == TypeVehicule.MOTO) {
+            nombreDePlaces = 1;
+            generationPlaces.add(new Place(1, Place.Rangee.devant, Place.Colonne.milieu));
+        } else if (genre == TypeVehicule.CITADINE) {
+            nombreDePlaces = 4;
+            generationPlaces.add(new Place(1, Place.Rangee.devant, Place.Colonne.fenetreG));
+            generationPlaces.add(new Place(2, Place.Rangee.devant, Place.Colonne.fenetreD));
+            generationPlaces.add(new Place(3, Place.Rangee.premier, Place.Colonne.fenetreG));
+            generationPlaces.add(new Place(4, Place.Rangee.premier, Place.Colonne.fenetreD));
+        } else if (genre == TypeVehicule.BREAK) {
+            nombreDePlaces = 4;
+            generationPlaces.add(new Place(1, Place.Rangee.devant, Place.Colonne.fenetreG));
+            generationPlaces.add(new Place(2, Place.Rangee.devant, Place.Colonne.fenetreD));
+            generationPlaces.add(new Place(3, Place.Rangee.premier, Place.Colonne.fenetreG));
+            generationPlaces.add(new Place(4, Place.Rangee.premier, Place.Colonne.fenetreD));
+        } else if (genre == TypeVehicule.BUS) {
+            generationPlaces.add(new Place(1, Place.Rangee.devant, Place.Colonne.milieu));
+            generationPlaces.add(new Place(2, Place.Rangee.devant, Place.Colonne.fenetreD));
             for (int compte = 0; compte < 4; compte++) {
-                if (compte == 0) variation = Place.Rangee.premier;
-                else if (compte == 1) variation = Place.Rangee.deuxieme;
-                else if (compte == 2) variation = Place.Rangee.troisieme;
-                else if (compte == 3) variation = Place.Rangee.quatre;
+                Place.Rangee rangee;
+                if (compte == 0) rangee = Place.Rangee.premier;
+                else if (compte == 1) rangee = Place.Rangee.deuxieme;
+                else if (compte == 2) rangee = Place.Rangee.troisieme;
+                else rangee = Place.Rangee.quatre;
 
-                generationPlaces.add(new Place((ajout*compte) + 3, variation, Place.Colonne.fenetreG));
-                generationPlaces.add(new Place((ajout*compte) + 4, variation, Place.Colonne.CouloirG));
-                generationPlaces.add(new Place((ajout*compte) + 5, variation, Place.Colonne.milieu));
-                generationPlaces.add(new Place((ajout*compte) + 6, variation, Place.Colonne.CouloirD));
-                generationPlaces.add(new Place((ajout*compte) + 7, variation, Place.Colonne.fenetreD));
-                nombreDePlaces = generationPlaces.size();
+                int base = 5 * compte + 3;
+                generationPlaces.add(new Place(base, rangee, Place.Colonne.fenetreG));
+                generationPlaces.add(new Place(base + 1, rangee, Place.Colonne.CouloirG));
+                generationPlaces.add(new Place(base + 2, rangee, Place.Colonne.milieu));
+                generationPlaces.add(new Place(base + 3, rangee, Place.Colonne.CouloirD));
+                generationPlaces.add(new Place(base + 4, rangee, Place.Colonne.fenetreD));
             }
-                
-            }
-            return generationPlaces ;
-            }
+            nombreDePlaces = generationPlaces.size();
+        }
+        return generationPlaces;
+    }
 }

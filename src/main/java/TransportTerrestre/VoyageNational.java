@@ -25,7 +25,20 @@ public class VoyageNational extends Deplacement {
     public double calculerPrix() {
         double total = 0;
         for (Ticket t : tickets) {
-            total += t.calculerPrixUnitaire();
+            double prixBase = getTrajet().getPrix() * getVehicule().getCoefficient();
+            int distance = getTrajet().calculerDistance(
+                    t.getArretDepart().getVille(),
+                    t.getArretArrivee().getVille());
+            int totalDistance = getTrajet().calculerDistanceTotale();
+            double prix = prixBase;
+            if (distance < totalDistance / 2) {
+                prix = prix / 2;
+            }
+            double fraisBagages = 0;
+            for (Bagage b : t.getBagages()) {
+                fraisBagages += b.calculerFrais();
+            }
+            total += Math.round(prix) + fraisBagages;
         }
         return total;
     }
