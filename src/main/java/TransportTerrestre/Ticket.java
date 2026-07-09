@@ -20,6 +20,8 @@ public class Ticket {
     private StatutTicket statut;
     @ToString.Exclude @EqualsAndHashCode.Exclude
     private List<Bagage> bagages;
+    @ToString.Exclude @EqualsAndHashCode.Exclude
+    private VoyageNational voyage;
     private Arret arretDepart;
     private Arret arretArrivee;
     private LocalDate jourDepart;
@@ -53,5 +55,7 @@ public class Ticket {
     public void setHeureDepart(LocalTime heureDepart) { this.heureDepart = heureDepart; }
     public void setStatut(StatutTicket statut) { this.statut = statut; }
     public void setActif(boolean actif) { this.actif = actif; }
+    public VoyageNational getVoyage() { return voyage; }
+    public void setVoyage(VoyageNational voyage) { this.voyage = voyage; }
 
 }

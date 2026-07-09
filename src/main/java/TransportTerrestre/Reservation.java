@@ -91,6 +91,9 @@ public class Reservation {
             ticket.setStatut(Ticket.StatutTicket.ANNULE);
         }
         ticket.setActif(false);
+        if (ticket.getVoyage() != null) {
+            ticket.getVoyage().getTickets().remove(ticket);
+        }
         if (ticket.getPlaceConcernee() != null) {
             ticket.getPlaceConcernee().setDisponibilite(true);
         }

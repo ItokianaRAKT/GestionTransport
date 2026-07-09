@@ -40,6 +40,7 @@ public class VoyageNational extends Deplacement {
         Ticket ticket = new Ticket(UUID.randomUUID(), depart, arrivee, place, calculerPrixTicket(depart, arrivee));
         ticket.setJourDepart(getDate());
         ticket.setHeureDepart(getHeureDepart());
+        ticket.setVoyage(this);
         tickets.add(ticket);
         return ticket;
     }

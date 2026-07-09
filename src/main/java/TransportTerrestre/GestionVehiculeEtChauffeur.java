@@ -32,6 +32,7 @@ public class GestionVehiculeEtChauffeur {
             throw new IllegalArgumentException("Ce chauffeur est déjà enregistré.");
         }
         agence.getChauffeurs().add(chauffeur);
+        chauffeur.setAgence(agence);
     }
 
     public void supprimerChauffeur(Chauffeur chauffeur) {
