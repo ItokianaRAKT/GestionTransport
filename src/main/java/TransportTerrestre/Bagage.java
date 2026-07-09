@@ -30,9 +30,6 @@ public class Bagage {
     }
 
     public double calculerFrais() {
-        if (poids > SECOND_PLAFOND) {
-            throw new IllegalStateException("Poids depasse le second plafond de " + SECOND_PLAFOND + "kg");
-        }
         if (poids > PREMIER_PLAFOND) {
             return (poids - PREMIER_PLAFOND) * FRAIS_PAR_KG;
         }

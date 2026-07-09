@@ -46,7 +46,9 @@ public class CourseTaxi extends Deplacement {
     public void terminer() {
         setStatut(StatutTransport.TERMINE);
         setPrixTotal((int) calculerPrix());
-        getVehicule().getTransportsEffectues().add(this);
+        if (getVehicule() != null) {
+            getVehicule().getTransportsEffectues().add(this);
+        }
     }
 
 }

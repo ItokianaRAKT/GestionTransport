@@ -35,6 +35,8 @@ public class VoyageNational extends Deplacement {
 
     public Ticket creerTicket(Arret depart, Arret arrivee, Place place) {
         Ticket ticket = new Ticket(UUID.randomUUID(), depart, arrivee, place, calculerPrixTicket(depart, arrivee));
+        ticket.setJourDepart(getDate());
+        ticket.setHeureDepart(getHeureDepart());
         tickets.add(ticket);
         return ticket;
     }
@@ -48,7 +50,7 @@ public class VoyageNational extends Deplacement {
             for (Bagage b : t.getBagages()) {
                 fraisBagages += b.calculerFrais();
             }
-            total += prix + fraisBagages;
+            total += prix + (double) Math.round(fraisBagages);
         }
         return total;
     }

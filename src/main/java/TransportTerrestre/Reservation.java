@@ -48,6 +48,9 @@ public class Reservation {
         double montant = 0;
         for(Ticket ticket : tickets){
             montant += ticket.getPrix();
+            for(Bagage bag : ticket.getBagages()){
+                montant += bag.calculerFrais();
+            }
         }
         return montant;
     }
@@ -73,10 +76,15 @@ public class Reservation {
     }
 
     public void ajouterBagage(Ticket ticket, Bagage bag){
+        if (bag.estInterdit()) {
+            throw new IllegalArgumentException("Bagage interdit : poids depasse " + Bagage.SECOND_PLAFOND + "kg");
+        }
         ticket.getBagages().add(bag);
+        this.prix = calculerMontant();
     }
 
     public void retirerBagage(Ticket ticket, Bagage bag){
         ticket.getBagages().remove(bag);
+        this.prix = calculerMontant();
     }
 }

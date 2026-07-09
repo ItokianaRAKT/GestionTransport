@@ -50,5 +50,7 @@ public class Ticket {
     public boolean isActif() { return actif; }
     public double getPrix() { return prix; }
     public void setPrix(double prix) { this.prix = prix; }
+    public void setJourDepart(LocalDate jourDepart) { this.jourDepart = jourDepart; }
+    public void setHeureDepart(LocalTime heureDepart) { this.heureDepart = heureDepart; }
 
 }

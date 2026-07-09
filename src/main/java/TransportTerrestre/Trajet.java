@@ -55,9 +55,26 @@ public class Trajet {
         }
         return distance;
     }
-    public void ajouterArret(Arret arret, int distance) {
-        this.listeArrets.add(arret);
-        this.listeDistances.add(distance);
+    public void ajouterArret(Arret avant, Arret nouvelArret, int distance) {
+        int index = listeArrets.indexOf(avant);
+        if (index == -1) {
+            throw new IllegalArgumentException("Arret avant introuvable dans le trajet");
+        }
+
+        if (index == listeArrets.size() - 1) {
+            listeArrets.add(nouvelArret);
+            listeDistances.add(distance);
+        } else {
+            int oldDistance = listeDistances.get(index);
+            if (distance > oldDistance) {
+                throw new IllegalArgumentException("La distance depasse le segment existant");
+            }
+            listeArrets.add(index + 1, nouvelArret);
+            listeDistances.set(index, distance);
+            listeDistances.add(index + 1, oldDistance - distance);
+        }
+
+        this.distance = calculerDistanceTotale();
     }
     public void supprimerArret(Arret cible) {
         int index = listeArrets.indexOf(cible);
