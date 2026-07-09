@@ -25,14 +25,16 @@ public class Ticket {
     private LocalDate jourDepart;
     private LocalTime heureDepart;
     private boolean actif;
+    private double prix;
 
-    public Ticket(UUID id, Arret depart, Arret arrivee, Place place) {
+    public Ticket(UUID id, Arret depart, Arret arrivee, Place place, double prix) {
         this.id = id;
         this.arretDepart = depart;
         this.arretArrivee = arrivee;
         this.placeConcernee = place;
         this.bagages = new ArrayList<>();
         this.actif = true;
+        this.prix = prix;
     }
 
     public void annuler() { this.actif = false; }
@@ -46,5 +48,7 @@ public class Ticket {
     public LocalDate getJourDepart() { return jourDepart; }
     public LocalTime getHeureDepart() { return heureDepart; }
     public boolean isActif() { return actif; }
+    public double getPrix() { return prix; }
+    public void setPrix(double prix) { this.prix = prix; }
 
 }

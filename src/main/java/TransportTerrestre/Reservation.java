@@ -39,38 +39,44 @@ public class Reservation {
         this.dateReservation = dateReservation;
     }
 
-    public UUID getId() {
-        return id;
+    public void ajouterTicket(Ticket ticket){
+        this.tickets.add(ticket);
+        this.prix = calculerMontant();
     }
 
-    public LocalDate getDateReservation() {
-        return dateReservation;
-    }
-
-    public ArrayList<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public Paiement getPaiement() {
-        return paiement;
-    }
     public double calculerMontant(){
         double montant = 0;
-        for(Ticket tick : tickets){
-            montant += tickets.getTypeCourse.calculerPrix();
+        for(Ticket ticket : tickets){
+            montant += ticket.getPrix();
         }
         return montant;
     }
-    public ArrayList<Bagage> ajouterBagages(Bagage bag){
-        return this.tickets.add(bag);
+
+    public double calculerFraisBagages(){
+        double total = 0;
+        for(Ticket ticket : tickets){
+            for(Bagage bag : ticket.getBagages()){
+                total += bag.calculerFrais();
+            }
+        }
+        return total;
     }
-    public ArrayList<Bagage> retirerBagages(Bagage bag){
-        return this.tickets.remove(bag);
 
+    public double calculerPoidsBagages(){
+        double total = 0;
+        for(Ticket ticket : tickets){
+            for(Bagage bag : ticket.getBagages()){
+                total += bag.getPoids();
+            }
+        }
+        return total;
+    }
 
+    public void ajouterBagage(Ticket ticket, Bagage bag){
+        ticket.getBagages().add(bag);
+    }
+
+    public void retirerBagage(Ticket ticket, Bagage bag){
+        ticket.getBagages().remove(bag);
     }
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -21,24 +22,33 @@ public class VoyageNational extends Deplacement {
         this.tickets = tickets;
     }
 
+    public double calculerPrixTicket(Arret depart, Arret arrivee) {
+        double prixBase = getTrajet().getPrix() * getVehicule().getCoefficient();
+        int distance = getTrajet().calculerDistance(depart.getVille(), arrivee.getVille());
+        int totalDistance = getTrajet().calculerDistanceTotale();
+        double prix = prixBase;
+        if (distance < totalDistance / 2.0) {
+            prix = prix / 2;
+        }
+        return Math.round(prix);
+    }
+
+    public Ticket creerTicket(Arret depart, Arret arrivee, Place place) {
+        Ticket ticket = new Ticket(UUID.randomUUID(), depart, arrivee, place, calculerPrixTicket(depart, arrivee));
+        tickets.add(ticket);
+        return ticket;
+    }
+
     @Override
     public double calculerPrix() {
         double total = 0;
         for (Ticket t : tickets) {
-            double prixBase = getTrajet().getPrix() * getVehicule().getCoefficient();
-            int distance = getTrajet().calculerDistance(
-                    t.getArretDepart().getVille(),
-                    t.getArretArrivee().getVille());
-            int totalDistance = getTrajet().calculerDistanceTotale();
-            double prix = prixBase;
-            if (distance < totalDistance / 2) {
-                prix = prix / 2;
-            }
+            double prix = calculerPrixTicket(t.getArretDepart(), t.getArretArrivee());
             double fraisBagages = 0;
             for (Bagage b : t.getBagages()) {
                 fraisBagages += b.calculerFrais();
             }
-            total += Math.round(prix) + fraisBagages;
+            total += prix + fraisBagages;
         }
         return total;
     }
