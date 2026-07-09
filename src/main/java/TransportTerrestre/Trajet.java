@@ -27,9 +27,21 @@ public class Trajet {
     }
 
     public int calculerDistance(String depart, String arrivee) {
-        int indexDepart = listeArrets.indexOf(depart);
-        int indexArrivee = listeArrets.indexOf(arrivee);
-        int distance = 0;
+        int indexDepart = -1;
+        int indexArrivee = -1;
+
+        for (int i = 0; i < listeArrets.size(); i++) {
+            if (listeArrets.get(i).getVille().equals(depart)) {
+                indexDepart = i;
+            }
+            if (listeArrets.get(i).getVille().equals(arrivee)) {
+                indexArrivee = i;
+            }
+        }
+
+        if (indexDepart == -1 || indexArrivee == -1) {
+            return 0;
+        }
 
         if (indexDepart > indexArrivee) {
             int tmp = indexDepart;
@@ -37,6 +49,7 @@ public class Trajet {
             indexArrivee = tmp;
         }
 
+        int distance = 0;
         for (int i = indexDepart; i < indexArrivee; i++) {
             distance += listeDistances.get(i);
         }

@@ -11,7 +11,6 @@ public class GestionVehiculeEtChauffeurTest {
     private GestionVehiculeEtChauffeur gestion;
     private Agence agence;
     private Admin admin;
-
     private Vehicule vehicule1;
     private Vehicule vehicule2;
     private Vehicule vehicule3;

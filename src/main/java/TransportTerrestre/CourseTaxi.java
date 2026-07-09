@@ -36,7 +36,7 @@ public class CourseTaxi extends Deplacement {
 
     @Override
     public boolean estComplet() {
-        return true;
+        return client != null;
     }
 
     public void demarrer() {
