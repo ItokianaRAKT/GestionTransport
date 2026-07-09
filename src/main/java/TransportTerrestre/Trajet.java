@@ -40,7 +40,7 @@ public class Trajet {
         }
 
         if (indexDepart == -1 || indexArrivee == -1) {
-            return 0;
+            throw new IllegalArgumentException("Ville introuvable dans le trajet");
         }
 
         if (indexDepart > indexArrivee) {
@@ -60,7 +60,30 @@ public class Trajet {
         this.listeDistances.add(distance);
     }
     public void supprimerArret(Arret cible) {
-        this.listeArrets.removeIf(p -> p.getVille().equals(cible.getVille()));
+        int index = listeArrets.indexOf(cible);
+        if (index == -1) {
+            throw new IllegalArgumentException("Arret introuvable dans le trajet");
+        }
+
+        if (index == 0) {
+            listeArrets.remove(0);
+            listeDistances.remove(0);
+            if (!listeArrets.isEmpty()) {
+                this.depart = listeArrets.get(0);
+            }
+        } else if (index == listeArrets.size() - 1) {
+            listeArrets.remove(index);
+            listeDistances.remove(index - 1);
+            if (!listeArrets.isEmpty()) {
+                this.arrivee = listeArrets.get(listeArrets.size() - 1);
+            }
+        } else {
+            listeDistances.set(index - 1, listeDistances.get(index - 1) + listeDistances.get(index));
+            listeDistances.remove(index);
+            listeArrets.remove(index);
+        }
+
+        this.distance = calculerDistanceTotale();
     }
 
 }
