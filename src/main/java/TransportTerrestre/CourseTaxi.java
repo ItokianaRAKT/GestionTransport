@@ -44,11 +44,12 @@ public class CourseTaxi extends Deplacement {
     }
 
     public void terminer() {
+        if (getVehicule() == null || getTrajet() == null) {
+            throw new IllegalStateException("Impossible de terminer une course sans vehicule ni trajet");
+        }
         setStatut(StatutTransport.TERMINE);
         setPrixTotal((int) calculerPrix());
-        if (getVehicule() != null) {
-            getVehicule().getTransportsEffectues().add(this);
-        }
+        getVehicule().getTransportsEffectues().add(this);
     }
 
 }

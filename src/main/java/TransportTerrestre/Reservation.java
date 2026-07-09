@@ -6,6 +6,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -73,6 +76,66 @@ public class Reservation {
             }
         }
         return total;
+    }
+
+    public double annulerTicket(Ticket ticket) {
+        if (!ticket.isActif()) {
+            throw new IllegalStateException("Ce ticket est déjà annulé");
+        }
+        LocalDate jourDepart = ticket.getJourDepart();
+        LocalTime heureDepart = ticket.getHeureDepart();
+        if (jourDepart != null && heureDepart != null) {
+            LocalDateTime depart = LocalDateTime.of(jourDepart, heureDepart);
+            if (!LocalDateTime.now().isBefore(depart)) {
+                throw new IllegalStateException("Impossible d'annuler après l'heure de départ");
+            }
+        }
+        double pourcentage = calculerPourcentageRemboursement(ticket);
+        double montantTicket = ticket.getPrix();
+        for (Bagage b : ticket.getBagages()) {
+            montantTicket += b.calculerFrais();
+        }
+        double montantRembourse = montantTicket * pourcentage / 100.0;
+        if (montantRembourse > 0) {
+            ticket.setStatut(Ticket.StatutTicket.REMBOURSE);
+            paiement.setRembourse(true);
+            paiement.setMontantRembourse(paiement.getMontantRembourse() + montantRembourse);
+        } else {
+            ticket.setStatut(Ticket.StatutTicket.ANNULE);
+        }
+        ticket.setActif(false);
+        if (ticket.getPlaceConcernee() != null) {
+            ticket.getPlaceConcernee().setDisponibilite(true);
+        }
+        this.prix = calculerMontant();
+        return montantRembourse;
+    }
+
+    public double annulerReservation() {
+        double total = 0;
+        for (Ticket t : new ArrayList<>(tickets)) {
+            total += annulerTicket(t);
+        }
+        return total;
+    }
+
+    private double calculerPourcentageRemboursement(Ticket ticket) {
+        LocalDate jourDepart = ticket.getJourDepart();
+        LocalTime heureDepart = ticket.getHeureDepart();
+        if (jourDepart == null || heureDepart == null) {
+            return 0;
+        }
+        LocalDateTime depart = LocalDateTime.of(jourDepart, heureDepart);
+        LocalDateTime maintenant = LocalDateTime.now();
+        if (!maintenant.isBefore(depart)) {
+            return 0;
+        }
+        long joursAvant = ChronoUnit.DAYS.between(maintenant.toLocalDate(), jourDepart);
+        long heuresAvant = ChronoUnit.HOURS.between(maintenant, depart);
+        if (joursAvant >= 5) return 100;
+        if (joursAvant >= 3) return 50;
+        if (heuresAvant >= 24) return 25;
+        return 0;
     }
 
     public void ajouterBagage(Ticket ticket, Bagage bag){

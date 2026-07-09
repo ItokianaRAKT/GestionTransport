@@ -52,5 +52,7 @@ public class Ticket {
     public void setPrix(double prix) { this.prix = prix; }
     public void setJourDepart(LocalDate jourDepart) { this.jourDepart = jourDepart; }
     public void setHeureDepart(LocalTime heureDepart) { this.heureDepart = heureDepart; }
+    public void setStatut(StatutTicket statut) { this.statut = statut; }
+    public void setActif(boolean actif) { this.actif = actif; }
 
 }
