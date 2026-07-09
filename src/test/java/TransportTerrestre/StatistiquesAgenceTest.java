@@ -376,50 +376,6 @@ public class StatistiquesAgenceTest {
         assertNull(meilleur);
     }
 
-    // ─── estPlusRentable(Agence, YearMonth) ──────────
-
-    @Test
-    void plusRentable_parMois_trajetPlusBeneficiaire() {
-        CourseTaxi c1 = creerCourse(vAgencyCitadine, trajetUrbain, dateDansMois, chauffeur1, 100000);
-        vAgencyCitadine.getTransportsEffectues().add(c1);
-        vAgencyCitadine.getListeDepenses().add(new Depenses(dateDansMois, 1000, "", vAgencyCitadine));
-
-        CourseTaxi c2 = creerCourse(vAgencyBus, trajetNational, dateDansMois, chauffeur2, 100);
-        vAgencyBus.getTransportsEffectues().add(c2);
-        vAgencyBus.getListeDepenses().add(new Depenses(dateDansMois, 500000, "", vAgencyBus));
-
-        Trajet meilleur = stats.estPlusRentable(agence, mois);
-
-        assertNotNull(meilleur);
-        assertEquals(trajetUrbain.getId(), meilleur.getId());
-    }
-
-    @Test
-    void plusRentable_parMois_aucunTrajet() {
-        agence.getTrajets().clear();
-
-        Trajet meilleur = stats.estPlusRentable(agence, mois);
-
-        assertNull(meilleur);
-    }
-
-    // ─── estPlusRentable(Agence) ─────────────────────
-
-    @Test
-    void plusRentable_allTime_trajetPlusBeneficiaire() {
-        CourseTaxi c1 = creerCourse(vAgencyCitadine, trajetUrbain, dateDansMois, chauffeur1, 100000);
-        vAgencyCitadine.getTransportsEffectues().add(c1);
-
-        CourseTaxi c2 = creerCourse(vAgencyBus, trajetNational, dateDansMois, chauffeur2, 100);
-        vAgencyBus.getTransportsEffectues().add(c2);
-        vAgencyBus.getListeDepenses().add(new Depenses(dateDansMois, 500000, "", vAgencyBus));
-
-        Trajet meilleur = stats.estPlusRentable(agence);
-
-        assertNotNull(meilleur);
-        assertEquals(trajetUrbain.getId(), meilleur.getId());
-    }
-
     // ─── chauffeurTaxiPlusActif ──────────────────────
 
     @Test

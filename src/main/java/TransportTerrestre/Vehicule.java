@@ -64,7 +64,7 @@ public class Vehicule {
         this.usage = usage;
         this.disponible = true ;
         this.chargeMax = conditionCharge();
-        this.sieges = ajouterPlaces(typeVehicule);
+        this.sieges = ajouterPlaces(typeVehicule, usage);
         this.listeDepenses =  new ArrayList<>();
         this.transportsEffectues =  new ArrayList<>(); 
     }
@@ -116,24 +116,15 @@ public class Vehicule {
     public double calculBeneficeMensuel(YearMonth mois) {
         return calculRecetteMensuelle(mois) - calculDepensesMensuelle(mois);
     }
-    public List<Place> ajouterPlaces(TypeVehicule genre) {
+    public List<Place> ajouterPlaces(TypeVehicule genre, Usage usage) {
         List<Place> generationPlaces = new ArrayList<>();
-        if (genre == TypeVehicule.MOTO) {
-            nombreDePlaces = 1;
-            generationPlaces.add(new Place(1, Place.Rangee.devant, Place.Colonne.milieu));
-        } else if (genre == TypeVehicule.CITADINE) {
-            nombreDePlaces = 4;
-            generationPlaces.add(new Place(1, Place.Rangee.devant, Place.Colonne.fenetreG));
-            generationPlaces.add(new Place(2, Place.Rangee.devant, Place.Colonne.fenetreD));
-            generationPlaces.add(new Place(3, Place.Rangee.premier, Place.Colonne.fenetreG));
-            generationPlaces.add(new Place(4, Place.Rangee.premier, Place.Colonne.fenetreD));
-        } else if (genre == TypeVehicule.BREAK) {
-            nombreDePlaces = 4;
-            generationPlaces.add(new Place(1, Place.Rangee.devant, Place.Colonne.fenetreG));
-            generationPlaces.add(new Place(2, Place.Rangee.devant, Place.Colonne.fenetreD));
-            generationPlaces.add(new Place(3, Place.Rangee.premier, Place.Colonne.fenetreG));
-            generationPlaces.add(new Place(4, Place.Rangee.premier, Place.Colonne.fenetreD));
-        } else if (genre == TypeVehicule.BUS) {
+        if (usage == Usage.COURSE) {
+            if (genre == TypeVehicule.MOTO) nombreDePlaces = 1;
+            else if (genre == TypeVehicule.CITADINE) nombreDePlaces = 4;
+            else if (genre == TypeVehicule.BREAK) nombreDePlaces = 4;
+            return generationPlaces;
+        }
+        if (genre == TypeVehicule.BUS) {
             generationPlaces.add(new Place(1, Place.Rangee.devant, Place.Colonne.milieu));
             generationPlaces.add(new Place(2, Place.Rangee.devant, Place.Colonne.fenetreD));
             for (int compte = 0; compte < 4; compte++) {

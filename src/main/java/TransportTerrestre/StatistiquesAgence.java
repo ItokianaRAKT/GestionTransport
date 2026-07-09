@@ -97,54 +97,6 @@ public class StatistiquesAgence {
         return meilleur;
     }
 
-    public Trajet estPlusRentable(Agence agence, YearMonth mois) {
-        Trajet meilleur = null;
-        double maxBenefice = Double.NEGATIVE_INFINITY;
-        for (Trajet t : agence.getTrajets()) {
-            double recette = 0;
-            double depense = 0;
-            for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
-                if (!agence.getVehiculeAssigneTrajet().get(v).getId().equals(t.getId())) continue;
-                for (Deplacement d : v.getTransportsEffectues()) {
-                    if (d.getTrajet().getId().equals(t.getId()) && YearMonth.from(d.getDate()).equals(mois)) {
-                        recette += d.calculerPrix();
-                    }
-                }
-                depense += calculerDepenseMensuelleVehicule(v, mois);
-            }
-            double benefice = recette - depense;
-            if (benefice > maxBenefice) {
-                maxBenefice = benefice;
-                meilleur = t;
-            }
-        }
-        return meilleur;
-    }
-
-    public Trajet estPlusRentable(Agence agence) {
-        Trajet meilleur = null;
-        double maxBenefice = Double.NEGATIVE_INFINITY;
-        for (Trajet t : agence.getTrajets()) {
-            double recette = 0;
-            double depense = 0;
-            for (Vehicule v : agence.getVehiculeAssigneTrajet().keySet()) {
-                if (!agence.getVehiculeAssigneTrajet().get(v).getId().equals(t.getId())) continue;
-                for (Deplacement d : v.getTransportsEffectues()) {
-                    if (d.getTrajet().getId().equals(t.getId())) {
-                        recette += d.calculerPrix();
-                    }
-                }
-                depense += calculerDepenseTotaleVehicule(v);
-            }
-            double benefice = recette - depense;
-            if (benefice > maxBenefice) {
-                maxBenefice = benefice;
-                meilleur = t;
-            }
-        }
-        return meilleur;
-    }
-
     public Chauffeur chauffeurTaxiPlusActif(Agence agence) {
         Chauffeur plusActif = null;
         double maxKm = 0;

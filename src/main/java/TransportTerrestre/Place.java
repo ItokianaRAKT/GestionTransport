@@ -26,9 +26,5 @@ public class Place {
         this.colonne = colonne;
         this.disponibilite = true;
     }
-
-    public Place(int numero) {
-        this.numero = numero;
-    }
 }
 

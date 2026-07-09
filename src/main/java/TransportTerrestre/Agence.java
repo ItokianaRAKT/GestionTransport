@@ -30,6 +30,10 @@ public class Agence {
     private ArrayList<Trajet> trajets;
 
     public void listerVoituresDisponibles() {
-        return;
+        for (Vehicule v : VehiculeAssigneTrajet.keySet()) {
+            if (v.estDisponible()) {
+                System.out.println("- " + v.getMatricule() + " (" + v.getTypeVehicule() + ")");
+            }
+        }
     }
 }
