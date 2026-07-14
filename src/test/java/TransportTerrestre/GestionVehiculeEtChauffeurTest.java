@@ -24,28 +24,28 @@ public class GestionVehiculeEtChauffeurTest {
     private Chauffeur chauffeurSansVehicule;
 
     private Arret arretTana;
-    private Arret arretFiana;
-    private Arret arretAnkatso;
+    private Arret arretFianarantsoa;
+    private Arret arretTamatave;
 
     @BeforeEach
     void setUp() {
         arretTana = new Arret(UUID.randomUUID(), "Antananarivo");
-        arretFiana = new Arret(UUID.randomUUID(), "Fianarantsoa");
-        arretAnkatso = new Arret(UUID.randomUUID(), "Ankatso");
+        arretFianarantsoa = new Arret(UUID.randomUUID(), "Fianarantsoa");
+        arretTamatave = new Arret(UUID.randomUUID(), "Ankatso");
 
         trajetA = new Trajet(
-                UUID.randomUUID(), arretTana, arretFiana, 400, 10000,
-                new ArrayList<>(List.of(arretTana, arretFiana)),
+                UUID.randomUUID(), arretTana, arretFianarantsoa, 400, 10000,
+                new ArrayList<>(List.of(arretTana, arretFianarantsoa)),
                 new ArrayList<>(List.of(400))
         );
         trajetB = new Trajet(
-                UUID.randomUUID(), arretTana, arretAnkatso, 10, 3000,
-                new ArrayList<>(List.of(arretTana, arretAnkatso)),
+                UUID.randomUUID(), arretTana, arretTamatave, 10, 3000,
+                new ArrayList<>(List.of(arretTana, arretTamatave)),
                 new ArrayList<>(List.of(10))
         );
         trajetC = new Trajet(
-                UUID.randomUUID(), arretFiana, arretAnkatso, 500, 15000,
-                new ArrayList<>(List.of(arretFiana, arretAnkatso)),
+                UUID.randomUUID(), arretFianarantsoa, arretTamatave, 500, 15000,
+                new ArrayList<>(List.of(arretFianarantsoa, arretTamatave)),
                 new ArrayList<>(List.of(500))
         );
 
@@ -238,7 +238,7 @@ public class GestionVehiculeEtChauffeurTest {
     void affecterVehicule_trajetNonEnregistre_throws() {
         gestion.ajouterVehicule(vehicule1, trajetA);
         Trajet trajetInconnu = new Trajet(
-                UUID.randomUUID(), arretTana, arretFiana, 999, 99999,
+                UUID.randomUUID(), arretTana, arretFianarantsoa, 999, 99999,
                 new ArrayList<>(), new ArrayList<>()
         );
 
@@ -248,7 +248,7 @@ public class GestionVehiculeEtChauffeurTest {
 
     @Test
     void affecterVehicule_vehiculeNonEnregistreEtTrajetInconnu_throws() {
-        Trajet inconnu = new Trajet(UUID.randomUUID(), arretTana, arretFiana, 1, 1, new ArrayList<>(), new ArrayList<>());
+        Trajet inconnu = new Trajet(UUID.randomUUID(), arretTana, arretFianarantsoa, 1, 1, new ArrayList<>(), new ArrayList<>());
 
         assertThrows(IllegalArgumentException.class,
                 () -> gestion.affecterVehicule(vehicule1, inconnu));

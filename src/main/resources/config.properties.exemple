@@ -1,0 +1,13 @@
+db.url=jdbc:postgresql://localhost:5432/votre_nom_de_base
+db.user=votre_utilisateur
+db.password=votre_mot_de_passe
+
+instructions:
+1- Créer le fichier de configuration:
+Créez un nouveau fichier nommé config.properties dans le dossier ./ressources.
+2- Sécuriser le fichier:
+Ajoutez immédiatement config.properties à votre fichier .gitignore.
+Note : Cela évite de publier vos identifiants secrets sur le dépôt distant.
+3- Remplir les informations:
+Copiez les trois lignes du fichier config.properties.exemple. (db.url, db.user, db.password)
+Remplacez les valeurs génériques par vos propres identifiants de connexion
