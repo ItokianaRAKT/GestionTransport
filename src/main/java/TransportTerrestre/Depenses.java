@@ -13,11 +13,11 @@ import java.time.LocalDate;
 
 public class Depenses {
     enum TypeDepense {
-        CARBURANT, REPARATION, ENTRETIENT, SALAIRE, ASSURANCE
+        CARBURANT, REPARATION, ENTRETIEN, SALAIRE, ASSURANCE
     }
 
     private LocalDate date;
-    private int montant;
+    private double montant;
     private String description;
     @ToString.Exclude @EqualsAndHashCode.Exclude
     private Vehicule vehicule;

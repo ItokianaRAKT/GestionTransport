@@ -1,15 +1,12 @@
 package TransportTerrestre;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import java.util.UUID;
 
-import TransportTerrestre.Vehicule.Usage;
-
-@Data
-@Getter
+@Getter @Setter @ToString @EqualsAndHashCode(callSuper = true)
 
 public class Chauffeur extends Utilisateur {
     enum Permis { 
@@ -25,19 +22,21 @@ public class Chauffeur extends Utilisateur {
 
     public Chauffeur(UUID id ,Permis permis, String nom, String prenom, String email, String telephone, String motDePasse, String numeroPermis, Vehicule vehicule) {
         super(id, nom, prenom, email, telephone, motDePasse);
+        this.permis = permis;
         this.numeroPermis = numeroPermis;
         this.disponible = true;
         this.vehicule = vehicule;
-      
+
     }
-    // un chauffeur peut ne pas avoir de vehicule 
+    // un chauffeur peut ne pas avoir de vehicule
     public Chauffeur(UUID id,Permis permis, String nom, String prenom, String email, String telephone, String motDePasse, String numeroPermis) {
         super(id, nom, prenom, email, telephone, motDePasse);
+        this.permis = permis;
         this.numeroPermis = numeroPermis;
-        this.disponible = true;     
+        this.disponible = true;
     }
      
-     public void changerDisponibilité() {
+     public void changerDisponibilite() {
         this.disponible = !this.disponible;
      }
 

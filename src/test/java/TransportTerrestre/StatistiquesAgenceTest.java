@@ -96,7 +96,7 @@ public class StatistiquesAgenceTest {
                 new ArrayList<>(List.of(c)), 0, client,
                 CourseTaxi.TypeCourse.IMMEDIATE, tarif
         );
-        course.setPrixTotal((int) course.calculerPrix());
+        course.setPrixTotal(course.calculerPrix());
         return course;
     }
 
@@ -301,17 +301,17 @@ public class StatistiquesAgenceTest {
         vAgencyCitadine.getTransportsEffectues().add(course);
         vAgencyCitadine.getListeDepenses().add(new Depenses(dateDansMois, 2000, "", vAgencyCitadine));
 
-        int benefice = stats.calculerBeneficeTotaleMensuelle(agence, mois);
+        double benefice = stats.calculerBeneficeTotaleMensuelle(agence, mois);
 
-        int recette = (int) (5 * 1000 * 1.0);
-        assertEquals(recette - 2000, benefice);
+        double recette = 5 * 1000 * 1.0;
+        assertEquals(recette - 2000, benefice, 0.001);
     }
 
     @Test
     void beneficeTotalMensuel_negatif() {
         vAgencyCitadine.getListeDepenses().add(new Depenses(dateDansMois, 50000, "", vAgencyCitadine));
 
-        int benefice = stats.calculerBeneficeTotaleMensuelle(agence, mois);
+        double benefice = stats.calculerBeneficeTotaleMensuelle(agence, mois);
 
         assertTrue(benefice < 0);
     }
@@ -323,16 +323,16 @@ public class StatistiquesAgenceTest {
         vAgencyCitadine.getListeDepenses().add(new Depenses(dateDansMois, 10000, "", vAgencyCitadine));
         vAgencyCitadine.getListeDepenses().add(new Depenses(dateAutreMois, 5000, "", vAgencyCitadine));
 
-        int total = stats.calculerDepenseTotaleVehicule(vAgencyCitadine);
+        double total = stats.calculerDepenseTotaleVehicule(vAgencyCitadine);
 
-        assertEquals(15000, total);
+        assertEquals(15000, total, 0.001);
     }
 
     @Test
     void depenseTotaleVehicule_sansDepense() {
-        int total = stats.calculerDepenseTotaleVehicule(vAgencyCitadine);
+        double total = stats.calculerDepenseTotaleVehicule(vAgencyCitadine);
 
-        assertEquals(0, total);
+        assertEquals(0, total, 0.001);
     }
 
     // ─── estPlusRentable(Agence, Trajet) ─────────────
@@ -374,50 +374,6 @@ public class StatistiquesAgenceTest {
         Vehicule meilleur = stats.estPlusRentable(agence, tAutre);
 
         assertNull(meilleur);
-    }
-
-    // ─── estPlusRentable(Agence, YearMonth) ──────────
-
-    @Test
-    void plusRentable_parMois_trajetPlusBeneficiaire() {
-        CourseTaxi c1 = creerCourse(vAgencyCitadine, trajetUrbain, dateDansMois, chauffeur1, 100000);
-        vAgencyCitadine.getTransportsEffectues().add(c1);
-        vAgencyCitadine.getListeDepenses().add(new Depenses(dateDansMois, 1000, "", vAgencyCitadine));
-
-        CourseTaxi c2 = creerCourse(vAgencyBus, trajetNational, dateDansMois, chauffeur2, 100);
-        vAgencyBus.getTransportsEffectues().add(c2);
-        vAgencyBus.getListeDepenses().add(new Depenses(dateDansMois, 500000, "", vAgencyBus));
-
-        Trajet meilleur = stats.estPlusRentable(agence, mois);
-
-        assertNotNull(meilleur);
-        assertEquals(trajetUrbain.getId(), meilleur.getId());
-    }
-
-    @Test
-    void plusRentable_parMois_aucunTrajet() {
-        agence.getTrajets().clear();
-
-        Trajet meilleur = stats.estPlusRentable(agence, mois);
-
-        assertNull(meilleur);
-    }
-
-    // ─── estPlusRentable(Agence) ─────────────────────
-
-    @Test
-    void plusRentable_allTime_trajetPlusBeneficiaire() {
-        CourseTaxi c1 = creerCourse(vAgencyCitadine, trajetUrbain, dateDansMois, chauffeur1, 100000);
-        vAgencyCitadine.getTransportsEffectues().add(c1);
-
-        CourseTaxi c2 = creerCourse(vAgencyBus, trajetNational, dateDansMois, chauffeur2, 100);
-        vAgencyBus.getTransportsEffectues().add(c2);
-        vAgencyBus.getListeDepenses().add(new Depenses(dateDansMois, 500000, "", vAgencyBus));
-
-        Trajet meilleur = stats.estPlusRentable(agence);
-
-        assertNotNull(meilleur);
-        assertEquals(trajetUrbain.getId(), meilleur.getId());
     }
 
     // ─── chauffeurTaxiPlusActif ──────────────────────

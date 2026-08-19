@@ -1,11 +1,12 @@
 package TransportTerrestre;
 
+import java.util.Objects;
 
 public class GestionVehiculeEtChauffeur {
     private Agence agence;
 
     public GestionVehiculeEtChauffeur(Agence agence) {
-        this.agence = agence;
+        this.agence = Objects.requireNonNull(agence, "L'agence ne peut pas etre nulle");
     }
 
     public void ajouterVehicule(Vehicule vehicule, Trajet trajet) {
@@ -13,6 +14,7 @@ public class GestionVehiculeEtChauffeur {
             throw new IllegalArgumentException("Ce vehicule est déjà enregistré");
         }
         agence.getVehiculeAssigneTrajet().put(vehicule, trajet);
+        vehicule.setAgence(agence);
         vehicule.setDisponible(true);
     }
 
@@ -32,6 +34,11 @@ public class GestionVehiculeEtChauffeur {
             throw new IllegalArgumentException("Ce chauffeur est déjà enregistré.");
         }
         agence.getChauffeurs().add(chauffeur);
+        chauffeur.setAgence(agence);
+    }
+
+    public void ajouterTrajet(Trajet trajet) {
+        agence.getTrajets().add(trajet);
     }
 
     public void supprimerChauffeur(Chauffeur chauffeur) {
@@ -57,6 +64,9 @@ public class GestionVehiculeEtChauffeur {
         }
         if (!agence.getVehiculeAssigneTrajet().containsKey(vehicule)) {
             throw new IllegalArgumentException("Ce vehicule n'est pas enregistré");
+        }
+        if (!vehicule.estDisponible()) {
+            throw new IllegalStateException("Ce vehicule n'est pas disponible");
         }
         agence.getChauffeurs().stream()
                 .filter(c -> vehicule.equals(c.getVehicule()))
